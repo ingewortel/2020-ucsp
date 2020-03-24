@@ -36,32 +36,50 @@ simulation-panels : $(foreach p, $(panels), plots/F2$(p).pdf)
 
 
 # =============================== PANEL E =======================================
+
+# STEP 1:
 # Example brownian tracks. To get brownian motion, we simply set max_act and lambda_act
 # both to zero (although setting either one to zero would already work). 
+# We supply the node script the path to the configuration file, the values of max_act
+# and lambda_act (both zero). The "none" means that no images are saved, and we set
+# the simulation seed to the simulation number indicated by $* here.
 data/tracks/CPM2D-lact0-mact0-sim%.txt : ../scripts/simulation/simple-track.js \
 	settings/conf-2D.js | data/tracks
-	@echo "...Brownian sim $*.. " && node $< "$(pathToHere)/settings/conf-2D.js" 0 0 "none" $* > $@
+	@echo "...Brownian sim $*.. " && \
+	node $< "$(pathToHere)/settings/conf-2D.js" 0 0 "none" $* > $@
 
+# Ensure that a track is generated for each number in the SIMULATIONS vector (see top
+# of this file).
 progress/brownian : $(foreach i, $(SIMULATIONS), data/tracks/CPM2D-lact0-mact0-sim$(i).txt ) | progress
 	@touch $@
 
+# Generate a plot of one example brownian track. In the figure we plot an earlier example,
+# but it is generated in the same way. 
 plots/brownian-example.pdf : ../scripts/plotting/plot-track-brownian.R progress/brownian | plots
 	Rscript $< $@
 
 
-# example actmodel tracks (for parameters, see settings on top of this makefile)
+# STEP 2:
+# Example Act Model tracks (for parameters, see settings on top of this makefile).
+# This works in the same way as the generation of brownian tracks above. 
 data/tracks/CPM2D-lact$(EXAMPLELACT)-mact$(EXAMPLEMACT)-sim%.txt : ../scripts/simulation/simple-track.js \
 	settings/conf-2D.js | data/tracks
 	@echo "...Act model sim $*.. " && \
 	node $< "$(pathToHere)/settings/conf-2D.js" $(EXAMPLEMACT) $(EXAMPLELACT) "none" $* > $@
 
+# Ensure that a track is generated for each number in the SIMULATIONS vector (see top
+# of this file).
 progress/exampletracks-act : $(foreach i, $(SIMULATIONS), data/tracks/CPM2D-lact$(EXAMPLELACT)-mact$(EXAMPLEMACT)-sim$(i).txt ) | progress
 	@touch $@
 
+# Generate a plot of the example tracks. In the figure we plot an earlier example,
+# but it is generated in the same way. 
 plots/act-examples.pdf : ../scripts/plotting/plot-track-actmodel.R progress/exampletracks-act | plots
 	Rscript $< $(EXAMPLELACT) $(EXAMPLEMACT) $(EXAMPLEN) 2 1000 $@
 
-# Get the displacement analysis
+
+
+# STEP 3: Get the displacement analysis and plot it.
 plots/F2panelE.pdf : ../scripts/plotting/plot-displacement-actvsbrownian.R \
 	progress/brownian progress/exampletracks-act | plots
 	Rscript $< $(EXAMPLELACT) $(EXAMPLEMACT) $(NSIM) 2 5 $@
