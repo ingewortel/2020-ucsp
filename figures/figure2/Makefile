@@ -9,7 +9,7 @@ pathToHere=../../figure2
 
 # number of simulations
 NSIM=20
-NSIM_3D=1
+NSIM_3D=20
 
 
 
