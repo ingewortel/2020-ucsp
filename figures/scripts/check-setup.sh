@@ -56,59 +56,6 @@ else
 fi
 
 
-
-
-# check openfst
-checkOpenfst=$(command -v fstdifference | wc -l)
-
-if [ $checkOpenfst != 1 ] ; then \
-	echo "ERROR - Your computer does not appear to have OpenFST installed! Please install before continuing."
-	echo ""
-	echo "	On linux, try:"
-	echo "		sudo apt-get install libfst-dev"
-	echo "		sudo apt-get install libfst-tools"
-	echo "	On Mac OS X, try:"
-	echo "		brew install openfst"
-	echo "	or visit http://www.openfst.org"
-	exit 1
-else
-	echo "** 	OpenFST :	OK "
-fi
-
-# check graphviz
-checkGraphviz=$(command -v neato | wc -l)
-
-if [ $checkGraphviz != 1 ] ; then \
-	echo "ERROR - Your computer does not appear to have Graphviz installed! Please install before continuing."
-	echo ""
-	echo "	On linux, try:"
-	echo "		sudo apt-get install graphviz"
-	echo "	On Mac OS X, try:"
-	echo "		brew install graphviz"
-	echo "	or visit https://www.graphviz.org/download/"
-	exit 1
-else
-	echo "** 	Graphviz :	OK "
-fi
-
-# check rsvg-convert
-checkRsvg=$(command -v rsvg-convert | wc -l)
-
-if [ $checkRsvg != 1 ] ; then \
-	echo "ERROR - Your computer does not appear to have rsvg-convert installed! Please install before continuing."
-	echo ""
-	echo "	On linux, try:"
-	echo "		sudo apt-get install librsvg2-bin"
-	echo "	On Mac OS X, try:"
-	echo "		brew install librsvg"
-	echo "	or Google how to install librsvg on your system."
-	exit 1
-else
-	echo "** 	librsvg :	OK "
-fi
-
-
-
 # Check if R is installed
 Rinstall=$(command -v R | wc -l)
 
@@ -126,52 +73,37 @@ else
 fi
 
 
-# Check if python 3 is installed
-pythonCheck=$(command -v python3 | wc -l )
+# Check if nodejs is installed
+nodeCheck=$(command -v node | wc -l )
 
-if [ $pythonCheck != 1 ] ; then \
-	echo "ERROR - Your computer does not appear to have python3 installed! Please install python3 before continuing."
+if [ $nodeCheck != 1 ] ; then \
+	echo "ERROR - Your computer does not appear to have nodejs installed! Please install nodejs before continuing."
 	echo ""
 	echo "	On linux, try:"
-	echo "		sudo apt-get install python3.6"
+	echo "		sudo apt-get install nodejs"
 	echo "	On Mac OS X, try:"
-	echo "		brew install python3"
-	echo "	or visit https://www.python.org/downloads/"
+	echo "		brew install node"
+	echo "	or visit https://nodejs.org/en/download/"
 	exit 1
 else
-	echo "** 	python3 :	OK "
+	echo "** 	nodejs :	OK "
 fi
 
+# Check if nodejs is installed
+npmCheck=$(command -v npm | wc -l )
 
-
-# install python packages
-checkPythonPackages=$(python3 -m pip list)
-checkNumpy=$(echo $checkPythonPackages | grep numpy | wc -l)
-
-if [ $checkNumpy != 1 ] ; then \
-	echo "You don't have the python3 Numpy packages. Do you wish to install it?"
-	select yn in "Yes" "No"; do
-		case $yn in
-			Yes ) python3 -m pip install numpy; break;;
-			No ) echo "ERROR - Please install numpy before continuing." ; exit;;
-		esac
-	done
-else 
-	echo "** 	 - Numpy :	OK "
-fi
-
-checkNetworkx=$(echo $checkPythonPackages | grep networkx | wc -l)
-
-if [ $checkNetworkx != 1 ] ; then \
-	echo "You don't have the python3 networkx packages. Do you wish to install it?"
-	select yn in "Yes" "No"; do
-		case $yn in
-			Yes ) python3 -m pip install networkx; break;;
-			No ) echo "ERROR - Please install networkx before continuing." ;exit;;
-		esac
-	done
-else 
-	echo "** 	 - Networkx :	OK "
+if [ $npmCheck != 1 ] ; then \
+	echo "ERROR - Your computer does not appear to have the node package manager npm installed! Please install npm before continuing."
+	echo ""
+	echo "	On linux, try:"
+	echo "		sudo apt-get install npm"
+	echo "		(You may have to install libssl1.0-dev, nodejs-dev, and node-gyp first using the same command.)"
+	echo "	On Mac OS X, try:"
+	echo "		brew install node"
+	echo "	or visit https://nodejs.org/en/"
+	exit 1
+else
+	echo "** 	npm :	OK "
 fi
 
 
