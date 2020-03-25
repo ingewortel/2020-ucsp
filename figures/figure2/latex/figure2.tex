@@ -1,0 +1,65 @@
+\documentclass[tikz]{standalone}
+
+\input{../../scripts/latex/figure-preamble.tex}
+
+
+\begin{document}
+\scriptsize
+
+\begin{tikzpicture}[anchor=north west]
+\clip (0,0) rectangle +(18,-13);
+
+\begin{scope}
+	\node[anchor = north west] at (0.5,-0.3) {
+		\includegraphics{./img/all-setup.pdf}
+	};
+	
+	\begin{scope}[xshift=5cm,yshift=-5.5cm]
+		\node[anchor = north west] at (0,-0.95){
+			\includegraphics{./img/gradient.pdf}
+		};
+		\node[anchor = north west] at (0.1,-0.65) {activity:};
+		\node[anchor = north west] at (0.1,-1.45) {0};
+		\node[anchor = north west] at (1.15,-1.45) {max\textsubscript{act}};
+	\end{scope}
+	
+	
+	\node[anchor = north west] at (0,0) {\figf A};
+\end{scope}
+
+\begin{scope}[xshift=11.7cm]
+	\node[anchor = north west] at (0.3,-0.7){
+		\includegraphics{../onedim/plots/speed-persistence-phalf.pdf}
+	};
+	\node[anchor = north] at (4,-0.6) {1D};
+	\node[anchor = north west] at (0.3,-4.7){
+		\includegraphics{../twodim/plots/2D-speed-persistence-phalf.pdf}
+	};
+	\node[anchor = north] at (4,-4.6) {2D};
+	\node[anchor = north west] at (0.3,-8.7){
+		\includegraphics{../threedim2-geom/plots/3D-speed-persistence-phalf.pdf}
+	};
+	\node[anchor = north] at (4,-8.6) {3D};
+	\node[anchor = north west] at (0,0) {\figf B};
+\end{scope}
+
+
+\begin{scope}[yshift=-7.7cm]
+
+	\node[anchor = north west] at (0,0){
+		\includegraphics{../onedim/plots/1Dmain.pdf}
+	};
+	\draw[->, line width = 0.2mm] (4.5,-1.9) -- +(0.8, 0.25);
+	\node[anchor = south west, rotate = 20] at (4.5,-1.9) {$\lambda$\textsubscript{act}};
+
+
+	\node[anchor = north west] at (0,0) {\figf C};
+\end{scope}
+
+
+\end{tikzpicture}
+
+
+
+
+\end{document}
