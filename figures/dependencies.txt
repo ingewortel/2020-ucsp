@@ -1,0 +1,14 @@
+
+
+
+# to get npm:
+sudo apt-get install libssl1.0-dev
+sudo apt-get install nodejs-dev
+sudo apt-get install node-gyp
+sudo apt-get install npm
+
+
+R
+-ggplot
+-dplyr
+-celltrackR
