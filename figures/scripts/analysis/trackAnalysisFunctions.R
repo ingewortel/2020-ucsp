@@ -28,13 +28,11 @@ correctTorus <- function( tracks, fieldsize = c(150,150) ){
 
 		# Loop over the dimensions x,y(,z) (first column is time)
 		coordlastcol <- ncol( tracks[[t]] )
-		message( ncol( tracks[[t]] ) )
 		for( d in 2:coordlastcol ){
 		
 			# do the correction only if the fieldsize in that dimension is not NA
 			# (which indicates that there is no torus to be corrected for)
 			if( !is.na( fieldsize[d-1] ) ){
-				message( paste( "correcting dim ", d ) )
 			
 				# distance traveled in that direction
 				dc <- c( 0, diff( tracks[[t]][,d] ) )
