@@ -12,6 +12,7 @@ NSIM=20
 NSIM_3D=20
 
 torus_3D=150 150 150
+torus_2D=150 150
 
 # Expected cell-length of a 3D cell modelled as a cube = volume^(1/3).
 # The 3D cells have a volume of 1800 pixels (see conf), yielding a length of 12.
@@ -32,6 +33,65 @@ latex/figure2.pdf : latex/figure2.tex simulation-panels
 
 panels=panelB-1D panelB-2D panelB-3D panelC
 simulation-panels : $(foreach p, $(panels), plots/F2$(p).pdf)
+
+
+# ============================= PANEL B 2D ======================================
+# The 2D plot for panel B.
+
+# STEP 1: Simulate tracks. The raw tracks will be saved under:
+#	data/tracks/CPM2D-lact[value]-mact[value]-sim[value].txt
+# 
+# Automatically generate a Makefile with a recipe for each of the tracks to generate.
+# This ensures that these can then be generated in parallel. 
+data/mkfiles/CPM2D.make : ../scripts/simulation/simulations-lact-mact-makeout.sh \
+	settings/params2D.txt settings/conf-2D.js | data/mkfiles
+	bash $< ../scripts/simulation settings/conf-2D.js settings/params2D.txt \
+		$(NSIM) CPM2D $(pathToHere) > $@
+
+# To actually generate the tracks, call "make" on the Makefile generated in the 
+# previous step. The required scripts are in the dependencies to ensure that tracks
+# are updated whenever the underlying scripts change.
+# Also ensure that the 'progress' and 'data/tracks' folders exist before the simulations
+# are started. The recipe itself ensures that any old tracks are first removed, and
+# that a message is printed to the console before the simulations start.
+progress/CPM2D-tracks : data/mkfiles/CPM2D.make ../scripts/simulation/simple-track.js \
+	settings/params2D.txt settings/conf-2D.js | progress data/tracks
+	@rm -f data/tracks/CPM2D-* && \
+	$(MAKE) -f $< message && \
+	$(MAKE) -f $< &&\
+	touch $@
+
+
+# STEP 2: Analyze the tracks; output will be in data/CPM2D-speedpersistence-all.txt.
+#
+# Automatically generate a Makefile with a recipe to analyze all tracks per parameter
+# combination. These can then be analyzed in parallel to save time. 
+# This also generates folders data/analysis-CPM2D/tmp (for intermediate analysis files),
+# and data/analysis-CPM2D/acorplots (which is currently not used, but the analysis
+# script has an option to save autocovariance plots when computing persistence.)
+data/mkfiles/analyze-CPM2D.make : ../scripts/analysis/analysis-lact-mact-makeout.sh \
+	progress/CPM2D-tracks settings/params2D.txt | data/mkfiles
+	rm -f data/CPM2D-speedpersistence-all.txt && rm -rf data/analysis-CPM2D/tmp && \
+		rm -rf data/analysis-CPM2D/acorplots && \
+	bash $< data/tracks settings/params2D.txt $(NSIM) CPM2D 2 "$(torus_2D)" > $@
+
+# To get the final output, the above makefile is called to generate the analysis files.
+# For each parameter combination, the NSIM simulations are grouped in groups of 5 tracks
+# each. These tracks are then analyzed together for speed and persistence (grouping
+# improves the analysis because the analysis is now performed on a number of independent
+# tracks, but it still allows an estimate of uncertainty because we analyze multiple groups).
+# Once a separate analysis is performed for each parameter combi under 
+# data/analysis-CPM2D/tmp, all files are concatenated and a header is added. 
+data/CPM2D-speedpersistence-all.txt : data/mkfiles/analyze-CPM2D.make \
+	../scripts/analysis/analyze-speed-persistence-combined.R \
+	../scripts/analysis/trackAnalysisFunctions.R
+	@$(MAKE) -f $< message && $(MAKE) -f $< && rm -rf data/analysis-CPM2D/tmp
+
+
+# STEP 3: Make the speed-persistence plot of all parameter combinations.
+plots/F2panelB-2D.pdf : ../scripts/plotting/plot-speed-persistence-MactLact.R \
+	data/CPM2D-speedpersistence-all.txt ../scripts/plotting/mytheme.R | plots
+	Rscript $< data/CPM2D-speedpersistence-all.txt $@ phalf
 
 
 

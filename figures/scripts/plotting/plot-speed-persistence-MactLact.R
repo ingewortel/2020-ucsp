@@ -40,7 +40,7 @@ dmean <- d %>%
 	filter( values_persistence > 1 )
 
 # Compute the limit of the yaxis to plot.
-ymax <- 10^ceiling( log10( max(dmean$m_persistence,na.rm=TRUE ) ) )
+ymax <- 10^4 #10^ceiling( log10( max(dmean$m_persistence,na.rm=TRUE ) ) )
 
 # Compute the spearman correlation coefficient
 spearman_r <- round( cor.test( dmean$m_speed, dmean$m_persistence, method="spearman" )$estimate, 3)
