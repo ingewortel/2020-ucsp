@@ -18,7 +18,6 @@ const imgsave = args.d || "none"
 const simnum = parseInt( args.n )
 const channel = args.c || false
 
-console.log( settingsfile + " " + mact + " " + lact + " " + imgsave + " " + simnum + " " + channel )
 
 
 let CPM = require("../cpmjs/build/cpm-cjs.js")
