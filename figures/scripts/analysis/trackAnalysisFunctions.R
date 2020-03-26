@@ -30,25 +30,33 @@ correctTorus <- function( tracks, fieldsize = c(150,150) ){
 		# Loop over the dimensions x,y(,z) (first column is time)
 		coordlastcol <- ncol( tracks[[t]] )
 		for( d in 2:coordlastcol ){
-			# distance traveled in that direction
-			dc <- c( 0, diff( tracks[[t]][,d] ) )
+		
+			# do the correction only if the fieldsize in that dimension is not NA
+			# (which indicates that there is no torus to be corrected for)
+			if( !is.na( fieldsize[d] ) ){
+			
+				# distance traveled in that direction
+				dc <- c( 0, diff( tracks[[t]][,d] ) )
 
-			# if absolute distance is more than half the gridsize,
-			# the cell has crossed the torus border.
-			# if the distance is negative, all subsequent points
-			# should be shifted with + fieldsize, if positive,
-			# with -fieldsize.
-			corr <- 0
-			corr[ dc < (-fieldsize[d-1]/2) ] <- fieldsize[d-1]
-			corr[ dc > (fieldsize[d-1]/2) ] <- -fieldsize[d-1]
-			corr.points <- which( corr != 0 )
+				# if absolute distance is more than half the gridsize,
+				# the cell has crossed the torus border.
+				# if the distance is negative, all subsequent points
+				# should be shifted with + fieldsize, if positive,
+				# with -fieldsize.
+				corr <- 0
+				corr[ dc < (-fieldsize[d-1]/2) ] <- fieldsize[d-1]
+				corr[ dc > (fieldsize[d-1]/2) ] <- -fieldsize[d-1]
+				corr.points <- which( corr != 0 )
 
-			# apply the correction: shift all subsequent points with the
-			# correction factor determined above.
-			totrows <- nrow( tracks[[t]] )
-			for( row in corr.points ){
-				tracks[[t]][ (row:totrows), d ] <- tracks[[t]][ (row:totrows), d ] + corr[row]
+				# apply the correction: shift all subsequent points with the
+				# correction factor determined above.
+				totrows <- nrow( tracks[[t]] )
+				for( row in corr.points ){
+					tracks[[t]][ (row:totrows), d ] <- tracks[[t]][ (row:totrows), d ] + corr[row]
+				}
+			
 			}
+			
 		}
 
 	}

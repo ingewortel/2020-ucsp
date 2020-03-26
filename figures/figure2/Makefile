@@ -11,6 +11,7 @@ pathToHere=../../figure2
 NSIM=20
 NSIM_3D=20
 
+torus_3D=150 150 150
 
 
 # ================================ FIGURE ======================================
@@ -29,15 +30,17 @@ simulation-panels : $(foreach p, $(panels), plots/F2$(p).pdf)
 
 
 # ============================= PANEL B 3D ======================================
-# The 3D plot for panel B
+# The 3D plot for panel B.
 
-# STEP 1: Simulate tracks.
+# STEP 1: Simulate tracks. The raw tracks will be saved under:
+#	data/tracks/CPM3D-lact[value]-mact[value]-sim[value].txt
 # 
 # Automatically generate a Makefile with a recipe for each of the tracks to generate.
 # This ensures that these can then be generated in parallel. 
 data/mkfiles/CPM3D.make : ../scripts/simulation/simulations-lact-mact-makeout.sh \
 	settings/params3D.txt settings/conf-3D.js | data/mkfiles
-	bash $< ../scripts/simulation settings/conf-3D.js settings/params3D.txt $(NSIM_3D) CPM3D $(pathToHere) > $@
+	bash $< ../scripts/simulation settings/conf-3D.js settings/params3D.txt \
+		$(NSIM_3D) CPM3D $(pathToHere) > $@
 
 # To actually generate the tracks, call "make" on the Makefile generated in the 
 # previous step. The required scripts are in the dependencies to ensure that tracks
@@ -51,6 +54,19 @@ progress/CPM3D-tracks : data/mkfiles/CPM3D.make ../scripts/simulation/simple-tra
 	$(MAKE) -f $< message && \
 	$(MAKE) -f $< &&\
 	touch $@
+
+
+# STEP 2: Analyze the tracks.
+data/mkfiles/analyze-CPM3D.make : ../scripts/analysis/analysis-lact-mact-makeout.sh \
+	progress/CPM3D-tracks settings/params3D.txt | data/mkfiles
+	rm -f data/CPM3D-speedpersistence-all.txt && rm -rf data/analysis-CPM3D/tmp && \
+		rm -rf data/analysis-CPM3D/acorplots && \
+	bash $< data/tracks settings/params3D.txt $(NSIM_3D) CPM3D 3 "$(torus_3D)" > $@
+
+data/CPM3D-speedpersistence-all.txt : data/mkfiles/analyze-CPM3D.make \
+	../scripts/analysis/analyze-speed-persistence-combined.R \
+	../scripts/analysis/trackAnalysisFunctions.R
+	@$(MAKE) -f $< message && $(MAKE) -f $< && rm -rf data/analysis-CPM3D/tmp
 
 
 
