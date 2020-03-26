@@ -3,7 +3,6 @@
 # should be implemented with the specified fieldsize in x,y(,z) dimensions.
 readTracks <- function( trackfile, dim, torus.fieldsize = NULL ){
 	suppressMessages( require( celltrackR, quietly=TRUE  ) )
-	message( paste0( "dim = ", 3 ))
 	if( dim == 3 ){
 		# 3D coordinates in columns 4-6
 		tracks <- read.tracks.csv( trackfile, id.column=2, time.column=1, pos.columns=4:6 )
@@ -34,7 +33,7 @@ correctTorus <- function( tracks, fieldsize = c(150,150) ){
 		
 			# do the correction only if the fieldsize in that dimension is not NA
 			# (which indicates that there is no torus to be corrected for)
-			if( !is.na( fieldsize[d] ) ){
+			if( !is.na( fieldsize[d-1] ) ){
 				message( paste( "correcting dim ", d ) )
 			
 				# distance traveled in that direction
