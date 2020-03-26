@@ -15,11 +15,16 @@ torus_3D=150 150 150
 torus_2D=150 150
 torus_1D=150 NA
 
-# Expected cell-length of a 3D cell modelled as a cube = volume^(1/3).
-# The 3D cells have a volume of 1800 pixels (see conf), yielding a length of 12.
+# Expected cell-length of a cell.
 # This is used to compare the persistence time to the time it takes a cell to move
 # one cell length at the current speed.
+# 1D/2D cells are modelled as rectangles/squares respectively, with an area=500pix.
+CL1D=50
+CL2D=22.36
+# 3D cells have volume = 1800 pix, yielding a length of 12 (cell modeled as cube,
+# length = volume^(1/3).)
 CL3D=12
+
 
 
 # ================================ FIGURE ======================================
@@ -211,9 +216,18 @@ data/CPM3D-speedpersistence-all.txt : data/mkfiles/analyze-CPM3D.make \
 
 
 # STEP 3: Make the speed-persistence plot of all parameter combinations.
-plots/panelB-3D.pdf : ../scripts/plotting/plot-speed-persistence-MactLact.R \
+plots/F2panelB-3D.pdf : ../scripts/plotting/plot-speed-persistence-MactLact.R \
 	data/CPM3D-speedpersistence-all.txt ../scripts/plotting/mytheme.R | plots
 	Rscript $< data/CPM3D-speedpersistence-all.txt $@ phalf
+
+# ================================ PANEL C ======================================
+# speed-persistence analysis for the microchannels, stratified by max_act value.
+# this plot is based on the same data/CPM1D-speedpersistence-all.txt data as the
+# summary plot in panel B.
+
+plots/F2panelC.pdf : ../scripts/plotting/plot-speed-persistence-MactLact-facet-selection.R \
+	data/CPM1D-speedpersistence-all.txt ../scripts/plotting/mytheme.R | plots
+	Rscript $< data/CPM1D-speedpersistence-all.txt $@ phalf $(CL1D) "0.2 1.7" "30 100" 2
 
 
 # ============================ FOLDERS/OTHER ====================================
