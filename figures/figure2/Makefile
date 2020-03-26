@@ -13,6 +13,12 @@ NSIM_3D=20
 
 torus_3D=150 150 150
 
+# Expected cell-length of a 3D cell modelled as a cube = volume^(1/3).
+# The 3D cells have a volume of 1800 pixels (see conf), yielding a length of 12.
+# This is used to compare the persistence time to the time it takes a cell to move
+# one cell length at the current speed.
+CL3D=12
+
 
 # ================================ FIGURE ======================================
 
@@ -56,19 +62,36 @@ progress/CPM3D-tracks : data/mkfiles/CPM3D.make ../scripts/simulation/simple-tra
 	touch $@
 
 
-# STEP 2: Analyze the tracks.
+# STEP 2: Analyze the tracks; output will be in data/CPM3D-speedpersistence-all.txt.
+#
+# Automatically generate a Makefile with a recipe to analyze all tracks per parameter
+# combination. These can then be analyzed in parallel to save time. 
+# This also generates folders data/analysis-CPM3D/tmp (for intermediate analysis files),
+# and data/analysis-CPM3D/acorplots (which is currently not used, but the analysis
+# script has an option to save autocovariance plots when computing persistence.)
 data/mkfiles/analyze-CPM3D.make : ../scripts/analysis/analysis-lact-mact-makeout.sh \
 	progress/CPM3D-tracks settings/params3D.txt | data/mkfiles
 	rm -f data/CPM3D-speedpersistence-all.txt && rm -rf data/analysis-CPM3D/tmp && \
 		rm -rf data/analysis-CPM3D/acorplots && \
 	bash $< data/tracks settings/params3D.txt $(NSIM_3D) CPM3D 3 "$(torus_3D)" > $@
 
+# To get the final output, the above makefile is called to generate the analysis files.
+# For each parameter combination, the NSIM simulations are grouped in groups of 5 tracks
+# each. These tracks are then analyzed together for speed and persistence (grouping
+# improves the analysis because the analysis is now performed on a number of independent
+# tracks, but it still allows an estimate of uncertainty because we analyze multiple groups).
+# Once a separate analysis is performed for each parameter combi under 
+# data/analysis-CPM3D/tmp, all files are concatenated and a header is added. 
 data/CPM3D-speedpersistence-all.txt : data/mkfiles/analyze-CPM3D.make \
 	../scripts/analysis/analyze-speed-persistence-combined.R \
 	../scripts/analysis/trackAnalysisFunctions.R
 	@$(MAKE) -f $< message && $(MAKE) -f $< && rm -rf data/analysis-CPM3D/tmp
 
 
+# STEP 3: Make the speed-persistence plot of all parameter combinations.
+plots/panelB-3D.pdf : ../scripts/plotting/plot-speed-persistence-MactLact.R \
+	data/CPM3D-speedpersistence-all.txt ../scripts/plotting/mytheme.R | plots
+	Rscript $< data/CPM3D-speedpersistence-all.txt $@ phalf
 
 
 # ============================ FOLDERS/OTHER ====================================
