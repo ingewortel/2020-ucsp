@@ -61,7 +61,7 @@ for p in $(seq 1 $np) ; do
 		SIMOUT=data/analysis-$expName/tmp/analysis-$NAME.txt
 		echo "$SIMOUT : ../scripts/analysis/analyze-speed-persistence-combined.R ../scripts/analysis/trackAnalysisFunctions.R $TRACK$nSim.txt | data/analysis-$expName/tmp data/analysis-$expName/acorplots"
 		echo -e "\t@"Rscript \$\< $TRACK $nDim $LACT $MACT $nSim 5 \"$torusFieldsize\" $expName " | awk 'NR>1{print \$0}' > \$@"
-		fileList=$fiLelist" "$SIMOUT		
+		fileList=$fileList" "$SIMOUT		
 
 
 done
