@@ -34,6 +34,7 @@ correctTorus <- function( tracks, fieldsize = c(150,150) ){
 			# do the correction only if the fieldsize in that dimension is not NA
 			# (which indicates that there is no torus to be corrected for)
 			if( !is.na( fieldsize[d] ) ){
+				message( paste( "correcting dim ", d ) )
 			
 				# distance traveled in that direction
 				dc <- c( 0, diff( tracks[[t]][,d] ) )
