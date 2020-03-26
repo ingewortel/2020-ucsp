@@ -101,8 +101,58 @@ function logStats(){
 
 }
 
+// Custom version of initializeGrid that builds a microchannel
+function initializeGrid(){
+	
+		// add the initializer if not already there
+		if( !this.helpClasses["gm"] ){ this.addGridManipulator() }
+	
+		let nrcells = this.conf["NRCELLS"], cellkind, i
+		this.buildChannel()
+		
+		// Seed the right number of cells for each cellkind
+		for( cellkind = 0; cellkind < nrcells.length; cellkind ++ ){
+			
+			for( i = 0; i < nrcells[cellkind]; i++ ){
+				// first cell always at the midpoint. Any other cells
+				// randomly.				
+				if( i == 0 ){
+					this.gm.seedCellAt( cellkind+1, this.C.midpoint )
+				} else {
+					this.gm.seedCell( cellkind+1 )
+				}
+			}
+		}
+}
 
-// Build and run simulation
-let sim = new CPM.Simulation( config, { logStats : logStats } )
+// Function to build the microchannel
+function buildChannel(){
+		
+	
+		this.channelvoxels = this.gm.makePlane( [], 1, 0 )
+		let gridheight = this.C.extents[1]
+		this.channelvoxels = this.gm.makePlane( this.channelvoxels, 1, gridheight-1 )
+		
+		this.gm.changeKind( this.channelvoxels, 2  )
+
+		
+}
+
+
+// Construct simulation object, depending on if there should be a microchannel.
+let sim
+if( channel ){
+	// If channel = true, overwrite initializeGrid so that a microchannel is
+	// constructed before the simulation starts. 
+	sim = new CPM.Simulation( config, { 
+		logStats : logStats, 
+		initializeGrid : initializeGrid,
+		buildChannel : buildChannel 
+	} )
+} else {
+	// Else just overwrite the logStats to get the proper statistics.
+	sim = new CPM.Simulation( config, { logStats : logStats } )
+}
+
 sim.run()
 
