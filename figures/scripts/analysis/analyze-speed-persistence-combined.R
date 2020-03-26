@@ -47,14 +47,18 @@ for( g in 1:groups ){
 
 	}
 	
-	message( g) 
 
 	# Analyze speed and persistence
-	outplotname <- ifelse( plotAcov, paste0( "data/analysis-",expName,"/acorplots/lact",lact,"-mact",mact,"-groups",g,"_",groups,".pdf" ), NULL )
+	if( plotAcov ){
+		outplotname <- paste0( "data/analysis-",expName,"/acorplots/lact",lact,"-mact",mact,"-groups",g,"_",groups,".pdf" )
+	} else {
+		outplotname <- NULL
+	}
+	
 	
 	# Compute the mean (step-based) speed of the tracks in this group	
 	s <- meanSpeed( tracklist )
-	message( "speed" )
+	
 	# Persistence will be measured in multiple ways:
 	# 	- interval method (1D simulations only): we subsample every 'interval'-th 
 	# 		timepoint of the track to get a more coarse-grained track. For each interval,
@@ -86,7 +90,7 @@ for( g in 1:groups ){
 	
 	# Use this function to get persistence estimates with the three different methods.
 	p <- trackPersistence( tracklist, outplot = outplotname, interval = interval, threshold = 4 )
-	message( "persistence" )
+	
 	# Add to the dataframe
 	dtmp <- data.frame( 
 		lact = lact, 
