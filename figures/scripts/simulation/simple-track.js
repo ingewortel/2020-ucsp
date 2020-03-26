@@ -1,8 +1,22 @@
-let settingsfile = process.argv[2]
-let mact = parseInt( process.argv[3] )
-let lact = parseInt( process.argv[4] )
-let imgsave = process.argv[5]
-let simnum = parseInt( process.argv[6] ) || 1	// optional: set the seed for reproducibility.
+/* Get command line arguments:
+ *	-s [settingsfile] : 	file with the config object for the simulation;
+ *	-m [max_act] :			max_act value (must be integer)
+ *	-l [lambda_act] :		lambda_act value (must be integer)
+ *	-d [draw="none"] (opt):	if specified, images are saved under 
+ *								data/img/[value]/[value]-t[time].png.
+ *	-n [simulation no]:		used as the seed of the random number generator used
+ *							for this simulation.
+ *	-c [channel=false]:		with flag -c, a microchannel will be drawn on the grid.
+ */
+
+const args = require('minimist')(process.argv.slice(2));
+
+const settingsfile = args.s
+const mact = parseInt( args.m )
+const lact = parseInt( args.l )
+const imgsave = args.d || "none"
+const simnum = parseInt( args.n )
+const channel = args.c || false
 
 
 let CPM = require("../cpmjs/build/cpm-cjs.js")

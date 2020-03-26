@@ -36,6 +36,15 @@ np=$( cat $paramFile | wc -l )
 tracknum=$( echo "$np *$nsim" | bc )
 
 
+# If expname = CPM1D, we need to add the microchannel by passing the -c flag
+# to the simulation script. Otherwise we leave the string empty.
+if [ $expName == "CPM1D" ] ; then
+	addmicrochannel=" -c"
+else
+	addmicrochannel=""
+fi
+
+
 # Print the header of the Makefile to generate:
 echo ".DELETE_ON_ERROR :"
 echo "all : all-tracks"
@@ -65,7 +74,7 @@ for p in $(seq 1 $np) ; do
 			# Write the target, dependencies, and recipe for this particular track
 			# to the Makefile.
 			echo "$TRACK : $scriptDir/simple-track.js $settingsFile | data/tracks"
-			echo -e "\t@"node \$\< $pathToHere/$settingsFile $MACT $LACT "none" $sim "> \$@"
+			echo -e "\t@"node \$\< -s $pathToHere/$settingsFile -m $MACT -l $LACT -n $sim $addmicrochannel "> \$@"
 			echo ""
 
 			# Add this track to the list of all tracks to generate
@@ -85,7 +94,7 @@ echo ""
 echo "message : "
 echo -e "\t@"echo "Generating $tracknum tracks in $pathToHere/data/tracks," \
 	"using $np parameter combinations in $paramFile, $nsim simulations." \
-	"Recipe: node $scriptDir/simple-track.js $pathToHere/$settingsFile [MAXACT] [LAMBDAACT] 'none' [SIMNUMBER]" 
+	"Recipe: node $scriptDir/simple-track.js -s $pathToHere/$settingsFile -m [MAXACT] -l [LAMBDAACT] -n [SIMNUMBER] $addmicrochannel" 
 
 
 
