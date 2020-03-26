@@ -13,7 +13,7 @@ torusFieldsize <- as.numeric( unlist( strsplit( argv[7], " " ) ) )
 expName <- argv[8]
 
 # plot autocovariance to check?
-plot <- FALSE
+plotAcov <- FALSE
 
 
 # Report progress to console
@@ -48,9 +48,7 @@ for( g in 1:groups ){
 	}
 
 	# Analyze speed and persistence
-	outplotname <- ifelse( plot, 
-		paste0( "data/analysis-",expName,"/acorplots/lact",lact,"-mact",mact,"-groups",g,"_",groups,".pdf" ),
-		NULL )
+	outplotname <- ifelse( plotAcov, paste0( "data/analysis-",expName,"/acorplots/lact",lact,"-mact",mact,"-groups",g,"_",groups,".pdf" ), NULL )
 	
 	# Compute the mean (step-based) speed of the tracks in this group	
 	s <- meanSpeed( tracklist )
