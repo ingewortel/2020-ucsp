@@ -18,6 +18,8 @@ const imgsave = args.d || "none"
 const simnum = parseInt( args.n )
 const channel = args.c || false
 
+console.log( settingsfile + " " + mact + " " + lact + " " + imgsave + " " + simnum + " " + channel )
+
 
 let CPM = require("../cpmjs/build/cpm-cjs.js")
 let config = require( settingsfile )
@@ -90,15 +92,18 @@ function logStats(){
 	
 		
 	for( let cid of this.C.cellIDs() ){
-		console.log( 
-			this.time + "\t" + 
-			cid + "\t" + 
-			this.C.cellKind(cid) + "\t" + 
-			centroids[cid].join("\t") + "\t" +
-			conn[cid] + "\t" +
-			pact[cid] )
-	}
-
+		if( this.C.cellKind( cid ) == 1 ){
+		
+			console.log( 
+				this.time + "\t" + 
+				cid + "\t" + 
+				this.C.cellKind(cid) + "\t" + 
+				centroids[cid].join("\t") + "\t" +
+				conn[cid] + "\t" +
+				pact[cid] )
+			}
+	
+		}
 }
 
 // Custom version of initializeGrid that builds a microchannel

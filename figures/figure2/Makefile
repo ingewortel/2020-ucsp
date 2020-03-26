@@ -86,7 +86,8 @@ data/mkfiles/analyze-CPM1D.make : ../scripts/analysis/analysis-lact-mact-makeout
 # For each parameter combination, the NSIM simulations are grouped in groups of 5 tracks
 # each. These tracks are then analyzed together for speed and persistence (grouping
 # improves the analysis because the analysis is now performed on a number of independent
-# tracks, but it still allows an estimate of uncertainty because we analyze multiple groups).
+# tracks, but it still allows an estimate of uncertainty because we analyze multiple 
+# groups).
 # Once a separate analysis is performed for each parameter combi under 
 # data/analysis-CPM1D/tmp, all files are concatenated and a header is added. 
 data/CPM1D-speedpersistence-all.txt : data/mkfiles/analyze-CPM1D.make \
@@ -146,8 +147,8 @@ data/mkfiles/analyze-CPM2D.make : ../scripts/analysis/analysis-lact-mact-makeout
 # For each parameter combination, the NSIM simulations are grouped in groups of 5 tracks
 # each. These tracks are then analyzed together for speed and persistence (grouping
 # improves the analysis because the analysis is now performed on a number of independent
-# tracks, but it still allows an estimate of uncertainty because we analyze multiple groups).
-# Once a separate analysis is performed for each parameter combi under 
+# tracks, but it still allows an estimate of uncertainty because we analyze multiple 
+# groups). Once a separate analysis is performed for each parameter combi under 
 # data/analysis-CPM2D/tmp, all files are concatenated and a header is added. 
 data/CPM2D-speedpersistence-all.txt : data/mkfiles/analyze-CPM2D.make \
 	../scripts/analysis/analyze-speed-persistence-combined.R \
@@ -206,7 +207,8 @@ data/mkfiles/analyze-CPM3D.make : ../scripts/analysis/analysis-lact-mact-makeout
 # For each parameter combination, the NSIM simulations are grouped in groups of 5 tracks
 # each. These tracks are then analyzed together for speed and persistence (grouping
 # improves the analysis because the analysis is now performed on a number of independent
-# tracks, but it still allows an estimate of uncertainty because we analyze multiple groups).
+# tracks, but it still allows an estimate of uncertainty because we analyze multiple 
+# groups).
 # Once a separate analysis is performed for each parameter combi under 
 # data/analysis-CPM3D/tmp, all files are concatenated and a header is added. 
 data/CPM3D-speedpersistence-all.txt : data/mkfiles/analyze-CPM3D.make \

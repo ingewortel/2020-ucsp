@@ -25,7 +25,7 @@ let config = {
 		
 		// PerimeterConstraint parameters
 		LAMBDA_P: [0,2,0],					// PerimeterConstraint importance per cellkind
-		P : [0,260,0],						// Target perimeter of each cellkind
+		P : [0,360,0],						// Target perimeter of each cellkind
 		
 		// BarrierConstraint parameters
 		IS_BARRIER : [false, false, true],
