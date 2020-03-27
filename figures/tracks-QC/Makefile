@@ -4,15 +4,15 @@
 all : QC.pdf
 
 
-# =============================== SETTINGS =====================================
-
 
 # ================================ FIGURE =======================================
 
 check-plots : plots/checks1D-pact.pdf plots/checks1D-mconn.pdf plots/checks1D-pconn.pdf \
 	plots/checks1D-conn.pdf plots/checks2D-pact.pdf plots/checks2D-mconn.pdf \
 	plots/checks2D-pconn.pdf plots/checks2D-conn.pdf plots/checksskin-pact.pdf \
-	plots/checksskin-mconn.pdf plots/checksskin-pconn.pdf plots/checksskin-conn.pdf
+	plots/checksskin-mconn.pdf plots/checksskin-pconn.pdf plots/checksskin-conn.pdf \
+	plots/checks3D-pact.pdf plots/checks3D-mconn.pdf plots/checks3D-pconn.pdf \
+	plots/checks3D-conn.pdf
 
 
 QC.pdf : latex/QC.pdf
@@ -28,7 +28,8 @@ latex/QC.pdf : latex/QC.tex check-plots
 # =============================== CHECKS 1D =====================================
 # Get the tracks and settings from figure 2
 progress/CPM1D-tracks : | progress data/tracks
-	cd ../figure2 && cp data/tracks/CPM1D-*sim1.txt ../tracks-QC/data/tracks/ && \
+	cd ../figure2 && $(MAKE) progress/CPM1D-tracks && \
+	cp data/tracks/CPM1D-*sim1.txt ../tracks-QC/data/tracks/ && \
 	touch $@
 
 settings/params1D.txt : | settings
@@ -55,7 +56,8 @@ plots/checks1D-pconn.pdf : ../scripts/plotting/plot-cellchecks.R \
 # =============================== CHECKS 2D =====================================
 # Get the tracks and settings from figure 2
 progress/CPM2D-tracks : | progress data/tracks
-	cd ../figure2 && cp data/tracks/CPM2D-*sim1.txt ../tracks-QC/data/tracks/ && \
+	cd ../figure2 && $(MAKE) progress/CPM2D-tracks && \
+	cp data/tracks/CPM2D-*sim1.txt ../tracks-QC/data/tracks/ && \
 	touch $@
 
 settings/params2D.txt : | settings
@@ -81,12 +83,38 @@ plots/checks2D-pconn.pdf : ../scripts/plotting/plot-cellchecks.R \
 
 # =============================== CHECKS 3D =====================================
 
+# Get the tracks and settings from figure 2
+progress/CPM3D-tracks : | progress data/tracks
+	cd ../figure2 && $(MAKE) progress/CPM3D-tracks && \
+	cp data/tracks/CPM3D-*sim1.txt ../tracks-QC/data/tracks/ && \
+	touch $@
+
+settings/params3D.txt : | settings
+	cp ../figure2/settings/params3D.txt settings/
+
+# Make the plot with checks.
+plots/checks3D-pact.pdf : ../scripts/plotting/plot-cellchecks.R \
+	settings/params3D.txt progress/CPM3D-tracks | plots
+	Rscript $< CPM3D settings/params3D.txt pact 3D $@
+	
+plots/checks3D-mconn.pdf : ../scripts/plotting/plot-cellchecks.R \
+	settings/params3D.txt progress/CPM3D-tracks | plots
+	Rscript $< CPM3D settings/params3D.txt mconn 3D $@
+	
+plots/checks3D-conn.pdf : ../scripts/plotting/plot-cellchecks.R \
+	settings/params3D.txt progress/CPM3D-tracks | plots
+	Rscript $< CPM3D settings/params3D.txt conn 3D $@
+	
+plots/checks3D-pconn.pdf : ../scripts/plotting/plot-cellchecks.R \
+	settings/params3D.txt progress/CPM3D-tracks | plots
+	Rscript $< CPM3D settings/params3D.txt pconn 3D $@
 
 
 # ============================== CHECKS skin ====================================
 # Get the tracks and settings from figure 5
 progress/CPMskin-tracks : | progress data/tracks
-	cd ../figure5 && cp data/tracks/CPMskin-*sim1.txt ../tracks-QC/data/tracks/ && \
+	cd ../figure5 && $(MAKE) progress/CPMskin-tracks && \
+	cp data/tracks/CPMskin-*sim1.txt ../tracks-QC/data/tracks/ && \
 	touch $@
 
 settings/paramsskin.txt : | settings

@@ -1,5 +1,5 @@
 .SECONDARY:
-#.DELETE_ON_ERROR:
+.DELETE_ON_ERROR:
 
 all : figure3.pdf
 
@@ -37,7 +37,7 @@ latex/figure3.pdf : latex/figure3.tex simulation-panels
 	latexmk -c
 
 
-panels=panelB-2D panelC-2D
+panels=panelB-2D panelC-2D panelB-3D panelC-3D
 simulation-panels : $(foreach p, $(panels), plots/F3$(p).pdf)
 
 # ================================ PANEL A ======================================
