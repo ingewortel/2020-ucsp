@@ -35,7 +35,7 @@ ymax <- 300 #ceiling( log10( max(dmean$m_persistence,na.rm=TRUE ) ) )
 dmean$mact2 <- factor(dmean$mact, labels = paste0("max[act] : ", levels(factor(dmean$mact)) ) )
 dmean$tissue2 <- factor( dmean$tissue, labels = paste0("tissue : ", levels(factor(dmean$tissue)) ) )
 dmean$minP <- 0.1*cellength/dmean$m_speed
-
+print(dmean$minP)
 
 
 dspeeds <- data.frame()
@@ -68,7 +68,7 @@ p <- ggplot( dmean, aes( 	x = m_speed,
 	geom_point(size = 0.8, show.legend = FALSE ) +
 	geom_path() +
 	# Show lact values
-	geom_text_repel( data=dmean[ dmean$lp=="stiff",], aes( label=lact), box.padding=0, point.padding = 0.4, segment.color="grey50", size = 2, segment.size = 0.2, min.segment.length = unit(0, 'lines'), nudge_x=0.005, nudge_y=-0.13, force = 5 , show.legend = FALSE )+
+	geom_text_repel( data=dmean[ dmean$tissue=="stiff",], aes( label=lact), box.padding=0, point.padding = 0.4, segment.color="grey50", size = 2, segment.size = 0.2, min.segment.length = unit(0, 'lines'), nudge_x=0.005, nudge_y=-0.13, force = 5 , show.legend = FALSE )+
 	labs( 	x = "mean speed (pixels/MCS)",
 		y = "persistence time (MCS)",
 		color = "") +
