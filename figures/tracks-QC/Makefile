@@ -24,19 +24,19 @@ settings/params1D.txt : | settings
 
 plots/checks1D-pact.pdf : ../scripts/plotting/plot-cellchecks.R \
 	settings/params1D.txt progress/CPM1D-tracks | plots
-	Rscript $< checks1D settings/params1D.txt pact 1D $@
+	Rscript $< CPM1D settings/params1D.txt pact 1D $@
 	
 plots/checks1D-mconn.pdf : ../scripts/plotting/plot-cellchecks.R \
 	settings/params1D.txt progress/CPM1D-tracks | plots
-	Rscript $< checks1D settings/params1D.txt mconn 1D $@
+	Rscript $< CPM1D settings/params1D.txt mconn 1D $@
 	
 plots/checks1D-conn.pdf : ../scripts/plotting/plot-cellchecks.R \
 	settings/params1D.txt progress/CPM1D-tracks | plots
-	Rscript $< checks1D settings/params1D.txt conn 1D $@
+	Rscript $< CPM1D settings/params1D.txt conn 1D $@
 	
 plots/checks1D-pconn.pdf : ../scripts/plotting/plot-cellchecks.R \
 	settings/params1D.txt progress/CPM1D-tracks | plots
-	Rscript $< checks1D settings/params1D.txt pconn 1D $@
+	Rscript $< CPM1D settings/params1D.txt pconn 1D $@
 	
 
 # =============================== CHECKS 2D =====================================
