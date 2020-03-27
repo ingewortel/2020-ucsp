@@ -77,8 +77,10 @@ if( feature == "conn" ){
 params <- read.table( paramfile )
 if( ncol(params) == 2 ){
 	colnames( params ) <- c("mact", "lact" )
+	params <- params[,c("lact","mact")]
 } else {
 	colnames( params ) <- c("mact", "lact", "tissue")
+	params <- params[,c("lact","mact","tissue")]
 }
 
 
