@@ -152,7 +152,7 @@ p <- ggplot( data, aes( x = lact,
 	scale_y_continuous( expand=c(0,0)) +
 	scale_x_continuous( expand=c(0.2,0) ) +
 	coord_cartesian( ylim=c(0, yLimit) )+
-	facet_grid( tissue2~mact2, scales="free_x" ) + #, labeller=label_parsed )+
+	facet_grid( tissue2~mact2, scales="free_x", labeller=label_parsed )+
 	mytheme + theme(
 		legend.position = "right",
 		plot.title = element_text(size = 9),
