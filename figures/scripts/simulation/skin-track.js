@@ -40,8 +40,8 @@ if( imgsave === "none" ){
 if( tissue == "stiff" ){
 	// do nothing. maintain settings in template.
 } else if ( tissue == "deformable" ){
-	Cset.conf["LAMBDA_P"][2] = 1
-	Cset.conf["J"][2][2] = 2
+	config.conf["LAMBDA_P"][2] = 1
+	config.conf["J"][2][2] = 2
 } else {
 	throw("Unknown tissue type " + tissue +", please choose 'stiff' or 'deformable'!")
 }
