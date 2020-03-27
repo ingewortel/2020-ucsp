@@ -1,5 +1,5 @@
-
-
+!! pracma prerequisite not recognized by celltrackR!
+!! cowplot needs install of older version when R is not up to date
 
 # to get npm:
 sudo apt-get install libssl1.0-dev
