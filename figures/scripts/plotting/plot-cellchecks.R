@@ -93,9 +93,7 @@ for( i in 1:nrow(params) ){
 
 	# Get the parameter combination per row of the params table
 	currentParams <- params[i,]
-	fileID <- paste0( colnames(params), as.character(params[i,]), collapse = "-" )
-	print(fileID)
-	print( sapply( params[i,], as.character ) )
+	fileID <- paste0( colnames(params), sapply(params[i,], as.character), collapse = "-" )
 	
 	# Get the name of the file with tracks from the first simulation 
 	# for this parameter combination. Read this file.
