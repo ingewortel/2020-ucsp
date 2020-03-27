@@ -156,7 +156,7 @@ p <- ggplot( data, aes( x = lact,
 	coord_cartesian( ylim=c(0, yLimit) )+
 	scale_color_gradient( low = "#000000", high="red" ) +
 	scale_fill_gradient( low = "#000000", high ="red" )+
-	facet_grid( tissue~mact2, scales="free_x", cols = 4, labeller=label_parsed )+
+	facet_grid( tissue~mact2, scales="free_x", labeller=label_parsed )+
 	mytheme + theme(
 		legend.position = "right",
 		plot.title = element_text(size = 9),
