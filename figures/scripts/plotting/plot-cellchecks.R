@@ -137,26 +137,22 @@ if( ncol(params) == 2 ){
 	data$tissue <- "none"
 }
 
+data$tissue2 <- factor(data$tissue, labels = paste0("Tissue : ", levels(factor(data$tissue)) ) )
+
 # Generate the plot.
 p <- ggplot( data, aes( x = lact, 
 				y = mu, 
-				group=mact, 
-				color=mact,
-				fill=mact ) ) +
+				group=mact ) ) +
 	# shaded +/- SD
 	geom_ribbon( aes( ymin=mu-sd, ymax=mu+sd ), alpha=0.3, color=NA ) + 
 	geom_point() +
 	geom_path() +
-	labs( x = expression( lambda["Act"] ), y = yLabel ) + #,
-		#fill = expression( "Max"["Act"]),
-		#color = expression( "Max"["Act"]) ) +
+	labs( x = expression( lambda["Act"] ), y = yLabel ) + 
 	geom_text( aes( label = lact ) , size=2, hjust=-0.5,vjust=1) +
 	scale_y_continuous( expand=c(0,0)) +
 	scale_x_continuous( expand=c(0.2,0) ) +
 	coord_cartesian( ylim=c(0, yLimit) )+
-	scale_color_gradient( low = "#000000", high="red" ) +
-	scale_fill_gradient( low = "#000000", high ="red" )+
-	facet_grid( tissue~mact2, scales="free_x" ) + #, labeller=label_parsed )+
+	facet_grid( tissue2~mact2, scales="free_x" ) + #, labeller=label_parsed )+
 	mytheme + theme(
 		legend.position = "right",
 		plot.title = element_text(size = 9),
