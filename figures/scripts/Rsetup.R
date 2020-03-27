@@ -45,7 +45,7 @@ if( length( not_installed ) == 0 ){
 				
 				remotes::install_github( "ingewortel/celltrackR", quiet = TRUE )
 			} else {			
-				suppressMessages( install.packages( p, quiet=TRUE ) )
+				suppressMessages( install.packages( p, quiet=TRUE, repos = "https://cloud.r-project.org/" ) )
 			}
 		}		
 
