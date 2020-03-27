@@ -59,7 +59,7 @@ data/CPM2D-speedpersistence-all.txt : | data
 	cp data/CPM2D-speedpersistence-all.txt ../figure3/data/
 
 # Make the plot
-plots/panelB-2D.pdf : ../scripts/plotting/plot-speed-persistence-MactLact-facet-selection.R \
+plots/F3panelB-2D.pdf : ../scripts/plotting/plot-speed-persistence-MactLact-facet-selection.R \
 	data/CPM2D-speedpersistence-all.txt ../scripts/plotting/mytheme.R | plots
 	Rscript $< data/CPM2D-speedpersistence-all.txt $@ phalf $(CL2D) "0.5 -0.6" "30 100" 2
 
@@ -76,7 +76,7 @@ data/CPM3D-speedpersistence-all.txt : | data
 	cp data/CPM3D-speedpersistence-all.txt ../figure3/data/
 
 # Make the plot
-plots/panelB-3D.pdf : ../scripts/plotting/plot-speed-persistence-MactLact-facet-selection.R \
+plots/F3panelB-3D.pdf : ../scripts/plotting/plot-speed-persistence-MactLact-facet-selection.R \
 	data/CPM3D-speedpersistence-all.txt ../scripts/plotting/mytheme.R | plots
 	Rscript $< data/CPM3D-speedpersistence-all.txt $@ phalf $(CL3D) "-0.5 1.2" "30 50" 2
 
@@ -93,7 +93,7 @@ data/CPM2D-instantaneous.Rdata : ../scripts/analysis/analyze-instantaneous.R \
 	Rscript $< CPM2D $(NSIM) ../figure2/settings/params2D.txt "mact lact" "2 1" 2 "$(torus_2D)" $@
 
 # Make the plot
-plots/panelC-2D.pdf : ../scripts/plotting/plot-instantaneous-speed-MactLact-facet-selection.R \
+plots/F3panelC-2D.pdf : ../scripts/plotting/plot-instantaneous-speed-MactLact-facet-selection.R \
 	data/CPM2D-instantaneous.Rdata
 	Rscript $^ $@ "30 100" 1
 
@@ -107,7 +107,7 @@ data/CPM3D-instantaneous.Rdata : ../scripts/analysis/analyze-instantaneous.R \
 	Rscript $< CPM3D $(NSIM_3D) ../figure2/settings/params3D.txt "mact lact" "2 1" 3 "$(torus_3D)" $@
 
 # Make the plot
-plots/panelC-3D.pdf : ../scripts/plotting/plot-instantaneous-speed-MactLact-facet-selection.R \
+plots/F3panelC-3D.pdf : ../scripts/plotting/plot-instantaneous-speed-MactLact-facet-selection.R \
 	data/CPM3D-instantaneous.Rdata
 	Rscript $^ $@ "30 50" 1
 
