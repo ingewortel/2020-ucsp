@@ -109,7 +109,7 @@ for( i in 1:nrow(params) ){
 	# For 'pconn' and 'mconn', we compute percentages and quantiles and have no
 	# measure of spread.
 	if( feature == "pconn" ){
-		fmu <- sum( d[,featureCol] < 0.95 )/nrow(d) 
+		fmu <- 100*sum( d[,featureCol] < 0.95 )/nrow(d) 
 		fsd <- 0
 	} else if( feature == "mconn" ){
 		fmu <- quantile( d[,featureCol], 0.05 )
