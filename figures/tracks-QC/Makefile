@@ -31,7 +31,7 @@ plots/checks1D-mconn.pdf : ../scripts/plotting/plot-cellchecks.R \
 	Rscript $< checks1D settings/params1D.txt mconn 1D $@
 	
 plots/checks1D-conn.pdf : ../scripts/plotting/plot-cellchecks.R \
-	settings/params1D.txt progress/checks1D-tracks | plots
+	settings/params1D.txt progress/CPM1D-tracks | plots
 	Rscript $< checks1D settings/params1D.txt conn 1D $@
 	
 plots/checks1D-pconn.pdf : ../scripts/plotting/plot-cellchecks.R \
