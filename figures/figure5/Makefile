@@ -83,7 +83,7 @@ data/mkfiles/analyze-CPMskin.make : ../scripts/analysis/analysis-tissue-makeout.
 data/CPMskin-speedpersistence-all.txt : data/mkfiles/analyze-CPMskin.make \
 	../scripts/analysis/analyze-speed-persistence-combined.R \
 	../scripts/analysis/trackAnalysisFunctions.R
-	@$(MAKE) -f $< message && $(MAKE) -f $< && rm -rf data/analysis-CPMskin/tmp
+	@$(MAKE) -f $< message && $(MAKE) -f $< 
 
 
 # STEP 3: Make the speed-persistence plot of all parameter combinations.

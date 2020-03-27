@@ -97,7 +97,7 @@ data/mkfiles/analyze-CPM1D.make : ../scripts/analysis/analysis-lact-mact-makeout
 data/CPM1D-speedpersistence-all.txt : data/mkfiles/analyze-CPM1D.make \
 	../scripts/analysis/analyze-speed-persistence-combined.R \
 	../scripts/analysis/trackAnalysisFunctions.R
-	@$(MAKE) -f $< message && $(MAKE) -f $< && rm -rf data/analysis-CPM1D/tmp
+	@$(MAKE) -f $< message && $(MAKE) -f $<
 
 
 # STEP 3: Make the speed-persistence plot of all parameter combinations.
@@ -157,7 +157,7 @@ data/mkfiles/analyze-CPM2D.make : ../scripts/analysis/analysis-lact-mact-makeout
 data/CPM2D-speedpersistence-all.txt : data/mkfiles/analyze-CPM2D.make \
 	../scripts/analysis/analyze-speed-persistence-combined.R \
 	../scripts/analysis/trackAnalysisFunctions.R
-	@$(MAKE) -f $< message && $(MAKE) -f $< && rm -rf data/analysis-CPM2D/tmp
+	@$(MAKE) -f $< message && $(MAKE) -f $<
 
 
 # STEP 3: Make the speed-persistence plot of all parameter combinations.
@@ -218,7 +218,7 @@ data/mkfiles/analyze-CPM3D.make : ../scripts/analysis/analysis-lact-mact-makeout
 data/CPM3D-speedpersistence-all.txt : data/mkfiles/analyze-CPM3D.make \
 	../scripts/analysis/analyze-speed-persistence-combined.R \
 	../scripts/analysis/trackAnalysisFunctions.R
-	@$(MAKE) -f $< message && $(MAKE) -f $< && rm -rf data/analysis-CPM3D/tmp
+	@$(MAKE) -f $< message && $(MAKE) -f $<
 
 
 # STEP 3: Make the speed-persistence plot of all parameter combinations.
