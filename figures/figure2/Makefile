@@ -32,7 +32,7 @@ CL3D=12
 figure2.pdf : latex/figure2.pdf
 	cp $< $@
 
-latex/figure2.pdf : latex/figure2.tex simulation-panels
+latex/figure2.pdf : latex/figure2.tex simulation-panels cartoon-panels
 	cd latex && latexmk -pdf figure2.tex && cp figure2.pdf ../ ;\
 	latexmk -c
 
@@ -40,6 +40,10 @@ latex/figure2.pdf : latex/figure2.tex simulation-panels
 panels=panelB-1D panelB-2D panelB-3D panelC
 simulation-panels : $(foreach p, $(panels), plots/F2$(p).pdf)
 
+# ================================ PANEL A ======================================
+# Panel A is a schematic overview of the simulation setup, no simulations need to
+# be performed to produce it.
+cartoon-panels : cartoons/all-setup.pdf cartoons/gradient.pdf
 
 
 # ============================= PANEL B 1D ======================================
