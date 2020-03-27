@@ -11,7 +11,8 @@ all : QC.pdf
 
 check-plots : plots/checks1D-pact.pdf plots/checks1D-mconn.pdf plots/checks1D-pconn.pdf \
 	plots/checks1D-conn.pdf plots/checks2D-pact.pdf plots/checks2D-mconn.pdf \
-	plots/checks2D-pconn.pdf plots/checks2D-conn.pdf 
+	plots/checks2D-pconn.pdf plots/checks2D-conn.pdf plots/checksskin-pact.pdf \
+	plots/checksskin-mconn.pdf plots/checksskin-pconn.pdf plots/checksskin-conn.pdf
 
 
 QC.pdf : latex/QC.pdf
@@ -83,6 +84,30 @@ plots/checks2D-pconn.pdf : ../scripts/plotting/plot-cellchecks.R \
 
 
 # ============================== CHECKS skin ====================================
+# Get the tracks and settings from figure 5
+progress/CPMskin-tracks : | progress data/tracks
+	cd ../figure5 && cp data/tracks/CPMskin-*sim1.txt ../tracks-QC/data/tracks/ && \
+	touch $@
+
+settings/paramsskin.txt : | settings
+	cp ../figure5/settings/paramsskin.txt settings/
+
+# Make the plot with checks.
+plots/checksskin-pact.pdf : ../scripts/plotting/plot-cellchecks.R \
+	settings/paramsskin.txt progress/CPMskin-tracks | plots
+	Rscript $< CPMskin settings/paramsskin.txt pact 2D $@
+	
+plots/checksskin-mconn.pdf : ../scripts/plotting/plot-cellchecks.R \
+	settings/paramsskin.txt progress/CPMskin-tracks | plots
+	Rscript $< CPMskin settings/paramsskin.txt mconn 2D $@
+	
+plots/checksskin-conn.pdf : ../scripts/plotting/plot-cellchecks.R \
+	settings/paramsskin.txt progress/CPMskin-tracks | plots
+	Rscript $< CPMskin settings/paramsskin.txt conn 2D $@
+	
+plots/checksskin-pconn.pdf : ../scripts/plotting/plot-cellchecks.R \
+	settings/paramsskin.txt progress/CPMskin-tracks | plots
+	Rscript $< CPMskin settings/paramsskin.txt pconn 2D $@
 
 
 
