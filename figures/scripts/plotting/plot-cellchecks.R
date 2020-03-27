@@ -127,6 +127,7 @@ for( i in 1:nrow(params) ){
 # Now set it to 1.1 times the max observed value. 
 if( feature == "pconn" ){
 	yLimit <- 1.1 * max( data$mu )
+	if( yLimit < 10 ) yLimit <- 10
 }
 
 # Rename the mact value for a prettier label in the plot
@@ -159,6 +160,10 @@ p <- ggplot( data, aes( x = lact,
 		legend.title = element_text( size = 9 ),
 		strip.background =element_rect(fill=NA,color=NA)
 	)
+	
+if( feature == "pconn" ){
+	p <- p + geom_hline( yintercept = 5, lty = 2 )
+}
 
 plotHeight = length(unique(data$tissue)) * 4 + 1
 
