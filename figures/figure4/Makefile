@@ -64,7 +64,7 @@ data/CPM3D-speedpersistence-all.txt : | data
 # Make the plot
 plots/F4panelB.pdf : ../scripts/plotting/plot-vs-lact-facet-selection.R \
 	data/CPM3D-speedpersistence-all.txt ../scripts/plotting/mytheme.R | plots
-	Rscript $< data/CPM3D-speedpersistence-all.txt $@ mact $(CL3D) "30 100" 2 $@
+	Rscript $< data/CPM3D-speedpersistence-all.txt $@ mact $(CL3D) "30 50" 2 $@
 
 # ============================ FOLDERS/OTHER ====================================
 # Automatically generate the directory structure.
