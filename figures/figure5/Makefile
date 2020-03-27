@@ -65,11 +65,12 @@ progress/CPMskin-tracks : data/mkfiles/CPMskin.make ../scripts/simulation/skin-t
 # This also generates folders data/analysis-CPMskin/tmp (for intermediate analysis files),
 # and data/analysis-CPMskin/acorplots (which is currently not used, but the analysis
 # script has an option to save autocovariance plots when computing persistence.)
-data/mkfiles/analyze-CPMskin.make : ../scripts/analysis/analysis-lact-mact-makeout.sh \
+data/mkfiles/analyze-CPMskin.make : ../scripts/analysis/analysis-tissue-makeout.sh \
 	progress/CPMskin-tracks settings/paramsskin.txt | data/mkfiles
 	rm -f data/CPMskin-speedpersistence-all.txt && rm -rf data/analysis-CPMskin/tmp && \
 		rm -rf data/analysis-CPMskin/acorplots && \
 	bash $< data/tracks settings/paramsskin.txt $(NSIM) CPMskin 2 "$(torus_skin)" > $@
+
 
 # To get the final output, the above makefile is called to generate the analysis files.
 # For each parameter combination, the NSIM simulations are grouped in groups of 5 tracks
@@ -86,10 +87,9 @@ data/CPMskin-speedpersistence-all.txt : data/mkfiles/analyze-CPMskin.make \
 
 
 # STEP 3: Make the speed-persistence plot of all parameter combinations.
-plots/F5panelD.pdf : ../scripts/plotting/plot-speed-persistence-MactLact.R \
+plots/F5panelD.pdf : ../scripts/plotting/plot-speed-persistence-tissue-facet.R \
 	data/CPMskin-speedpersistence-all.txt ../scripts/plotting/mytheme.R | plots
-	Rscript $< data/CPMskin-speedpersistence-all.txt $@ phalf
-
+	Rscript $< data/CPMskin-speedpersistence-all.txt $@ $(CLSKIN) "0.5 -1"
 
 
 

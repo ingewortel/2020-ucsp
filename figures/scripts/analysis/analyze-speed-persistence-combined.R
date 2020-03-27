@@ -5,19 +5,22 @@ argv <- commandArgs( trailingOnly = TRUE )
 
 trackfilename <- argv[1]
 dim <- as.numeric( argv[2] )
-lact <- as.numeric( argv[3] )
-mact <- as.numeric( argv[4] )
+parms <- unlist( strsplit( argv[3], " " ) )
+parmnames <- unlist( strsplit( argv[4], " " ) )
 nsim <- as.numeric( argv[5] )
 simgroupsize <- as.numeric( argv[6] )
 torusFieldsize <- as.numeric( unlist( strsplit( argv[7], " " ) ) )
 expName <- argv[8]
 
+
+# get parameter values and parameter names
+parmValues <- setNames( parms, parmnames )
+
 # plot autocovariance to check?
 plotAcov <- FALSE
 
-
 # Report progress to console
-message( paste( "     Analyzing tracks", expName, ": mact = ", mact, "lact =", lact ) )
+message( paste( "     Analyzing tracks", expName, ": ", paste0( parmnames, " = ", parms, collapse = ", " ) ) )
 
 # Combine [simgroupsize] tracks to do analysis on. This way we can compute some measures
 # in a step- or subtrack-based manner, avoiding the artefacts of individual track-based
@@ -50,7 +53,8 @@ for( g in 1:groups ){
 
 	# Analyze speed and persistence
 	if( plotAcov ){
-		outplotname <- paste0( "data/analysis-",expName,"/acorplots/lact",lact,"-mact",mact,"-groups",g,"_",groups,".pdf" )
+		fileID <- paste0( parmnames, parms, collapse="-" )
+		outplotname <- paste0( "data/analysis-",expName,"/acorplots/",fileID,"-groups",g,"_",groups,".pdf" )
 	} else {
 		outplotname <- NULL
 	}
@@ -92,9 +96,8 @@ for( g in 1:groups ){
 	p <- trackPersistence( tracklist, outplot = outplotname, interval = interval, threshold = 4 )
 	
 	# Add to the dataframe
-	dtmp <- data.frame( 
-		lact = lact, 
-		mact = mact, 
+	dparms <- as.data.frame(t(parmValues))
+	dvalues <- data.frame(
 		g = g, 
 		speed = s, 
 		pexp = p$decay, 
@@ -102,6 +105,7 @@ for( g in 1:groups ){
 		pintmean = p$meanint, 
 		pintmedian = p$medianint 
 	)
+	dtmp <- cbind( dparms, dvalues )
 	d <- rbind( d, dtmp )
 
 

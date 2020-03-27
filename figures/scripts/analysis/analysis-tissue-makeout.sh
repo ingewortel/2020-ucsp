@@ -50,25 +50,26 @@ for p in $(seq 1 $np) ; do
 	# Get current values of the parameters
 	MACT=$( cat $paramFile | awk -v line=$p 'NR==line{print $1}')
 	LACT=$( cat $paramFile | awk -v line=$p 'NR==line{print $2}')
+	TISS=$( cat $paramFile | awk -v line=$p 'NR==line{print $3}')
 		
 		# Identifier based on current parameter values
-		NAME=$expName-lact$LACT-mact$MACT
-
+		NAME=$expName-lact$LACT-mact$MACT-tissue$TISS
+		
 		# Now the recipes for the individual parameter combinations
 		# trackfiles & corresponding analysis. Ensure that the folders data/analysis/tmp
 		# and data/analysis/acorplots are generated first. 
 		TRACK=data/tracks/$NAME-sim
 		SIMOUT=data/analysis-$expName/tmp/analysis-$NAME.txt
 		echo "$SIMOUT : ../scripts/analysis/analyze-speed-persistence-combined.R ../scripts/analysis/trackAnalysisFunctions.R $TRACK$nSim.txt | data/analysis-$expName/tmp data/analysis-$expName/acorplots"
-		echo -e "\t@"Rscript \$\< $TRACK $nDim \"$LACT $MACT\" \"lact mact\" $nSim 5 \"$torusFieldsize\" $expName " | awk 'NR>1{print \$0}' > \$@"
-		fileList=$fileList" "$SIMOUT		
+		echo -e "\t@"Rscript \$\< $TRACK $nDim \"$LACT $MACT $TISS\" \"lact mact tissue\" $nSim 5 \"$torusFieldsize\" $expName " | awk 'NR>1{print \$0}' > \$@"
+		fileList=$fileList" "$SIMOUT			
 
 
 done
 
 # This recipe concatenates all the outputs together, with a header of column names first.
 echo "data/$expName-speedpersistence-all.txt : $fileList"
-echo -e "\t@"printf "'"'%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\n'"'" " lact mact group speed pexp phalf pintmean pintmedian > \$@ && \\"
+echo -e "\t@"printf "'"'%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\n'"'" " lact mact tissue group speed pexp phalf pintmean pintmedian > \$@ && \\"
 echo -e "\t"cat $fileList ">> \$@"
 
 
@@ -83,4 +84,4 @@ echo -e "\tmkdir -p \$@"
 # A message to print when the analysis starts.
 echo "message : "
 echo -e "\t@"echo "Analyzing $trackNum tracks in data/tracks. $nSim simulations." \
-	"Recipe: Rscript ../scripts/analysis/analyze-speed-persistence-combined.R data/tracks/$expName-lact[LACT]-mact[MACT] $nDim [LACT] [MACT] [NSIM] 5 [torus fieldsize] [expname]" 
+	"Recipe: Rscript ../scripts/analysis/analyze-speed-persistence-combined.R data/tracks/$expName-lact[LACT]-mact[MACT]-tissue[stiff/deformable] $nDim [LACT] [MACT] [NSIM] 5 [torus fieldsize] [expname]" 
