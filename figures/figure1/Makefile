@@ -41,12 +41,12 @@ simulation-panels : $(foreach p, $(panels), plots/F1$(p).pdf)
 # Example brownian tracks. To get brownian motion, we simply set max_act and lambda_act
 # both to zero (although setting either one to zero would already work). 
 # We supply the node script the path to the configuration file, the values of max_act
-# and lambda_act (both zero). The "none" means that no images are saved, and we set
-# the simulation seed to the simulation number indicated by $* here.
+# and lambda_act (both zero). We set the simulation seed to the simulation number 
+# with -n $* (where $* is a variable that will contain the simulation number).
 data/tracks/CPM2D-lact0-mact0-sim%.txt : ../scripts/simulation/simple-track.js \
 	settings/conf-2D.js | data/tracks
 	@echo "...Brownian sim $*.. " && \
-	node $< "$(pathToHere)/settings/conf-2D.js" 0 0 "none" $* > $@
+	node $< -s "$(pathToHere)/settings/conf-2D.js" -m 0 -l 0 -n $* > $@
 
 # Ensure that a track is generated for each number in the SIMULATIONS vector (see top
 # of this file).
@@ -65,7 +65,7 @@ plots/brownian-example.pdf : ../scripts/plotting/plot-track-brownian.R progress/
 data/tracks/CPM2D-lact$(EXAMPLELACT)-mact$(EXAMPLEMACT)-sim%.txt : ../scripts/simulation/simple-track.js \
 	settings/conf-2D.js | data/tracks
 	@echo "...Act model sim $*.. " && \
-	node $< "$(pathToHere)/settings/conf-2D.js" $(EXAMPLEMACT) $(EXAMPLELACT) "none" $* > $@
+	node $< -s "$(pathToHere)/settings/conf-2D.js" -m $(EXAMPLEMACT) -l $(EXAMPLELACT) -n $* > $@
 
 # Ensure that a track is generated for each number in the SIMULATIONS vector (see top
 # of this file).
