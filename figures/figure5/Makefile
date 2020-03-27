@@ -15,7 +15,7 @@ torus_skin=150 150
 # This is used to compare the persistence time to the time it takes a cell to move
 # one cell length at the current speed.
 # 1D/2D cells are modelled as rectangles/squares respectively, with an area=500pix.
-CL2D=22.36
+CLskin=45
 
 
 # ================================ FIGURE ======================================
@@ -89,7 +89,7 @@ data/CPMskin-speedpersistence-all.txt : data/mkfiles/analyze-CPMskin.make \
 # STEP 3: Make the speed-persistence plot of all parameter combinations.
 plots/F5panelD.pdf : ../scripts/plotting/plot-speed-persistence-tissue-facet.R \
 	data/CPMskin-speedpersistence-all.txt ../scripts/plotting/mytheme.R | plots
-	Rscript $< data/CPMskin-speedpersistence-all.txt $@ $(CLSKIN) "0.5 -1"
+	Rscript $< data/CPMskin-speedpersistence-all.txt $@ $(CLskin) "0.5 -1"
 
 
 
