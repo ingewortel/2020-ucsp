@@ -14,11 +14,13 @@ check-plots : plots/checks1D-pact.pdf plots/checks1D-mconn.pdf plots/checks1D-pc
 
 
 # =============================== CHECKS 1D =====================================
-# Get the tracks from figure 2
-
+# Get the tracks and settings from figure 2
 progress/CPM1D-tracks : | progress data/tracks
 	cd ../figure2 && cp data/tracks/CPM1D-*sim1.txt ../tracks-QC/data/tracks/ && \
 	touch $@
+
+settings/params1D.txt : | settings
+	cp ../figure2/settings/params1D.txt settings/
 
 plots/checks1D-pact.pdf : ../scripts/plotting/plot-cellchecks.R \
 	settings/params1D.txt progress/CPM1D-tracks | plots
@@ -60,6 +62,9 @@ data :
 data/tracks :
 	@mkdir -p $@
 	
+settings :
+	@mkdir -p $@
+
 plots : 
 	@mkdir -p $@
 	
