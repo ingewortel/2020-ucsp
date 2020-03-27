@@ -64,7 +64,7 @@ if( feature == "conn" ){
 	yLabel <- "% connectedness < 95"
 	yLimit <- NA # no fixed ylimit, plot range depending on outcome
 } else if ( feature == "mconn" ){
-	featureCol <- 7
+	featureCol <- firstFeatureCol
 	yLabel <- "5% quantile connectedness"
 	yLimit <- 1	# connectedness is a number between 0 and 1 so plot on this scale.
 }  else {
@@ -164,6 +164,9 @@ p <- ggplot( data, aes( x = lact,
 		strip.background =element_rect(fill=NA,color=NA)
 	)
 
-ggsave( outplot, width = 25, height = 12, units="cm")
+plotHeight = length(unique(data$tissue)) * 4 + 1
+
+
+ggsave( outplot, width = 25, height = plotHeight, units="cm")
 
 
