@@ -31,7 +31,7 @@ cartoon-panels : cartoons/cpm-cartoon.pdf cartoons/brownian-example-track.pdf \
 	cartoons/act-example-tracks.pdf
 
 panels=panelE
-simulation-panels : $(foreach p, $(panels), plots/F2$(p).pdf)
+simulation-panels : $(foreach p, $(panels), plots/F1$(p).pdf)
 
 
 
@@ -80,7 +80,7 @@ plots/act-examples.pdf : ../scripts/plotting/plot-track-actmodel.R progress/exam
 
 
 # STEP 3: Get the displacement analysis and plot it.
-plots/F2panelE.pdf : ../scripts/plotting/plot-displacement-actvsbrownian.R \
+plots/F1panelE.pdf : ../scripts/plotting/plot-displacement-actvsbrownian.R \
 	progress/brownian progress/exampletracks-act | plots
 	Rscript $< $(EXAMPLELACT) $(EXAMPLEMACT) $(NSIM) 2 5 $@
 

@@ -62,7 +62,7 @@ data/mkfiles/CPM1D.make : ../scripts/simulation/simulations-lact-mact-makeout.sh
 # are started. The recipe itself ensures that any old tracks are first removed, and
 # that a message is printed to the console before the simulations start.
 progress/CPM1D-tracks : data/mkfiles/CPM1D.make ../scripts/simulation/simple-track.js \
-	settings/params2D.txt settings/conf-1D.js | progress data/tracks
+	settings/params1D.txt settings/conf-1D.js | progress data/tracks
 	@rm -f data/tracks/CPM1D-* && \
 	$(MAKE) -f $< message && \
 	$(MAKE) -f $< &&\
