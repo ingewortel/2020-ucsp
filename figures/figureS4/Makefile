@@ -28,7 +28,7 @@ simulation-panels : $(foreach p, $(panels), plots/SF4$(p).pdf)
 progress/CPMskin-tracks : | data progress
 	cd ../figure5 && $(MAKE) progress/CPMskin-tracks && \
 	cd ../figureS4/data && ln -s ../../figure5/data/tracks && \
-	touch $@
+	touch ../progress/CPMskin-tracks
 
 settings/paramsskin.txt : | settings
 	cp ../figure5/settings/paramsskin.txt settings/
