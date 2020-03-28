@@ -1,0 +1,29 @@
+\documentclass[tikz]{standalone}
+
+\input{../../scripts/latex/figure-preamble.tex}
+
+
+\begin{document}
+\scriptsize
+
+\begin{tikzpicture}[anchor=north west]
+
+\begin{scope}
+	\node[anchor = north west] at (0,0) {
+		\includegraphics{../plots/SF3panel-speed.pdf}
+	};
+	\node[anchor = north west] at (0,0) {\figf A};		
+\end{scope}
+
+\begin{scope}[yshift=-9cm]
+	\node[anchor = north west] at (0,0) {
+		\includegraphics{../plots/SF3panel-persistence.pdf}
+	};
+	\node[anchor = north west] at (0,0) {\figf B};		
+\end{scope}
+
+
+\end{tikzpicture}
+
+
+\end{document}
