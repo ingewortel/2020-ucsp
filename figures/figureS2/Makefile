@@ -7,7 +7,7 @@ all : figureS2.pdf
 
 
 # number of simulations
-NSIM=20
+NSIM=30
 CL2D=22.36
 
 

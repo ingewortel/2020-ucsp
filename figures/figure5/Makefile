@@ -8,7 +8,7 @@ all : figure5.pdf
 pathToHere=../../figure5
 
 # number of simulations
-NSIM=20
+NSIM=30
 torus_skin=150 150
 
 # Expected cell-length of a cell.

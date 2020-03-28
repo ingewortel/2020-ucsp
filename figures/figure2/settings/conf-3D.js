@@ -17,7 +17,7 @@ let config = {
 		// First value is always cellkind 0 (the background) and is often not used.
 				
 		// Adhesion parameters:
-		J: [[0,5], [5,15]],
+		J: [[0,5], [5,0]],
 		
 		// VolumeConstraint parameters
 		LAMBDA_V: [0,25],					// VolumeConstraint importance per cellkind

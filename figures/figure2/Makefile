@@ -8,8 +8,8 @@ all : figure2.pdf
 pathToHere=../../figure2
 
 # number of simulations
-NSIM=20
-NSIM_3D=20
+NSIM=30
+NSIM_3D=30
 
 torus_3D=150 150 150
 torus_2D=150 150
