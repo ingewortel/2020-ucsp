@@ -10,7 +10,7 @@ CLskin=45
 
 # ================================ FIGURE ======================================
 
-figureS4.pdf : latex/figureS5.pdf
+figureS5.pdf : latex/figureS5.pdf
 	cp $< $@
 
 latex/figureS5.pdf : latex/figureS5.tex simulation-panels
