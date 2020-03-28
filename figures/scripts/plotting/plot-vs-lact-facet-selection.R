@@ -1,6 +1,6 @@
-library( dplyr )
-library( ggplot2 )
-library( cowplot )
+library( dplyr, warn.conflicts = FALSE )
+library( ggplot2, warn.conflicts = FALSE )
+library( cowplot, warn.conflicts = FALSE )
 source("../scripts/plotting/mytheme.R")
 
 argv <- commandArgs( trailingOnly = TRUE )

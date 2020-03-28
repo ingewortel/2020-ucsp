@@ -1,5 +1,5 @@
-library(ggplot2)
-library(grid)
+library( ggplot2, warn.conflicts = FALSE )
+library( grid, warn.conflicts = FALSE )
 
 set_panel_size <- function(p=NULL, g=ggplotGrob(p), width=unit(3, "cm"), height=unit(3, "cm")){
   panel_index_w<- g$layout$l[g$layout$name=="panel"]

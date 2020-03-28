@@ -1,5 +1,5 @@
-library( dplyr )
-library( ggplot2 )
+library( dplyr, warn.conflicts = FALSE )
+library( ggplot2 , warn.conflicts = FALSE )
 source("../scripts/plotting/mytheme.R")
 
 argv <- commandArgs( trailingOnly = TRUE )
@@ -17,6 +17,14 @@ data <- data %>% filter( mact %in% mactvalues )
 
 #data <- sample_n( data, nrow(data)/100 )
 data$mact2 <- factor(data$mact, labels = paste0("max[act] : ", levels(factor(data$mact)) ) )
+
+
+# Remove all observations with a connectivity below 100 from the instantaneous step data. 
+# These can cause artefacts from cell breaking.
+remove.rows <- data$conn < 1
+print( paste0( "WARNING --- Removing ", sum(remove.rows), " rows from data with broken cells..." ) )
+data <- data[ !remove.rows, ]
+
 
 # Find the maximum density (which will be the max of the y axis later on; need this
 # to get proper positioning of the lambda act labels)
