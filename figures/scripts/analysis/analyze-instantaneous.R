@@ -36,7 +36,11 @@ if( ndim == 3 ){
   pact.col <- 7
 }
 
-# Functions to get instantaneous speeds and turning angles
+# Functions to get instantaneous speeds and turning angles.
+# instantaneous = 2 steps, because we need at least two steps to
+# compute an angle.
+# Also get minimum connectivity at this two-step subtrack, so we
+# can later filter for subtracks where the cell was intact.
 getAng <- function( track ){
   require( celltrackR, quietly = TRUE )
   
@@ -52,6 +56,22 @@ getSpeed <- function( track ){
   i <- seq(1,length - 2)
   speed <- sapply( i, function(x) speed( track[x:(x+2), ] ) )
   return( speed )
+}
+
+# this works if the dataframe contains a single track, which it does in
+# these simulations.
+getConn <- function( data ){
+	length <- nrow(data)
+	i <- seq(1,length - 2)
+	conn <- sapply( i, function(x) min( data[x:(x+2), conn.col ] ) )
+	return(conn)
+}
+
+getAct <- function( data ){
+	length <- nrow(data)
+	i <- seq(1,length - 2)
+	pact <- sapply( i, function(x) mean( data[x:(x+2), pact.col ] ) )
+	return(pact)
 }
 
 # empty df for output, loop over param combinations
@@ -76,8 +96,9 @@ for( p in 1:nrow(params ) ){
     a <- unname( unlist( lapply( t, getAng ) ) )
     
     # Get connectivity, percentage active pixels from dataframe d
-    pact <- d[,pact.col]
-    conn <- d[,conn.col]
+    pact <- getAct( d )
+    conn <- getConn( d )
+    
     
     # Cut them all off into the same length
     lengths <- sapply( list(v,a,pact,conn), length )
