@@ -20,7 +20,7 @@ latex/figureS3.pdf : latex/figureS3.tex simulation-panels
 	latexmk -c && rm -f ../Rplots.pdf
 
 
-panels=panel-speed panel-persistence
+panels=panel-speed
 simulation-panels : $(foreach p, $(panels), plots/SF3$(p).pdf)
 
 
