@@ -15,7 +15,7 @@ data$tissue2 <- factor(data$tissue, labels = paste0("tissue : ", levels(factor(d
 data$mact2 <- factor( data$mact, labels = paste0( "max[act] : ",levels(factor(data$mact))))
 
 # Remove all observations with a connectivity below 100 from the instantaneous step data. These can cause artefacts from cell breaking.
-remove.rows <- data$conn < 100
+remove.rows <- data$conn < 1
 print( paste0( "WARNING --- Removing ", sum(remove.rows), " rows from data with broken cells..." ) )
 data <- data[ !remove.rows, ]
 
