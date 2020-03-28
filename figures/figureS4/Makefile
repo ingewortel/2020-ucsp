@@ -5,6 +5,7 @@ all : figureS4.pdf
 
 # =============================== SETTINGS =====================================
 
+NSIM=20
 
 # ================================ FIGURE ======================================
 
@@ -37,7 +38,8 @@ settings/paramsskin.txt : | settings
 # Compute the instantaneous speeds etc.
 data/CPMskin-instantaneous.Rdata : ../scripts/analysis/analyze-instantaneous.R \
 	progress/CPMskin-tracks settings/paramsskin.txt ../scripts/analysis/trackAnalysisFunctions.R
-	Rscript $< CPMskin $(NSIM_SKIN) settings/paramsskin.txt "mact lact tissue" "2 1 3" 2 "150 150" $@
+	Rscript $< CPMskin $(NSIM) settings/paramsskin.txt "mact lact tissue" "2 1 3" 2 "150 150" $@
+
 
 # Make the plot:
 plots/SF4panel.pdf : ../scripts/plotting/plot-instantaneous-speed-tissue-facet.R \
