@@ -18,7 +18,7 @@ figureS2.pdf : latex/figureS2.pdf
 
 latex/figureS2.pdf : latex/figureS2.tex simulation-panels
 	cd latex && latexmk -pdf figureS2.tex && cp figureS2.pdf ../ ;\
-	latexmk -c
+	latexmk -c && rm -f ../Rplots.pdf
 
 
 panels=panelA panelB panelC panelD-speed panelE-speed

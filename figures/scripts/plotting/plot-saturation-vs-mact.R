@@ -1,6 +1,6 @@
 source("../scripts/plotting/mytheme.R")
-library( dplyr )
-library( ggplot2 )
+library( dplyr, warn.conflicts = FALSE )
+library( ggplot2, warn.conflicts = FALSE )
 
 argv <- commandArgs( trailingOnly = TRUE )
 
