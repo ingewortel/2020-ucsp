@@ -56,6 +56,10 @@ data :
 plots : 
 	@mkdir -p $@
 	
+	
+progress :
+	@mkdir -p $@
+
 settings :
 	@mkdir -p $@
 	
