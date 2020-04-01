@@ -7,24 +7,8 @@ all : figure3.pdf
 # path to here from ../scripts/simulation/ where scripts are
 pathToHere=../../figure3
 
-# number of simulations
-NSIM=30
-NSIM_3D=30
-
-torus_3D=150 150 150
-torus_2D=150 150
-torus_1D=150 NA
-
-# Expected cell-length of a cell.
-# This is used to compare the persistence time to the time it takes a cell to move
-# one cell length at the current speed.
-# 1D/2D cells are modelled as rectangles/squares respectively, with an area=500pix.
-CL1D=50
-CL2D=22.36
-# 3D cells have volume = 1800 pix, yielding a length of 12 (cell modeled as cube,
-# length = volume^(1/3).)
-CL3D=12
-
+# Get other make variables from a general configuration file.
+include ../settings.env
 
 
 # ================================ FIGURE ======================================
@@ -55,8 +39,7 @@ progress/CPM2D-tracks : | data/tracks progress
 	cp data/tracks/CPM2D* ../figure3/data/tracks/ && touch $@
 
 data/CPM2D-speedpersistence-all.txt : | data
-	cd ../figure2 && $(MAKE) data/CPM2D-speedpersistence-all.txt && \
-	cp data/CPM2D-speedpersistence-all.txt ../figure3/data/
+	cp ../figure2/data/CPM2D-speedpersistence-all.txt data/
 
 # Make the plot
 plots/F3panelB-2D.pdf : ../scripts/plotting/plot-speed-persistence-MactLact-facet-selection.R \
@@ -72,8 +55,7 @@ progress/CPM3D-tracks : | data/tracks progress
 	cp data/tracks/CPM3D* ../figure3/data/tracks/ && touch $@
 
 data/CPM3D-speedpersistence-all.txt : | data
-	cd ../figure2 && $(MAKE) data/CPM3D-speedpersistence-all.txt && \
-	cp data/CPM3D-speedpersistence-all.txt ../figure3/data/
+	cp ../figure2/data/CPM3D-speedpersistence-all.txt data/
 
 # Make the plot
 plots/F3panelB-3D.pdf : ../scripts/plotting/plot-speed-persistence-MactLact-facet-selection.R \
@@ -104,7 +86,7 @@ plots/F3panelC-2D.pdf : ../scripts/plotting/plot-instantaneous-speed-MactLact-fa
 data/CPM3D-instantaneous.Rdata : ../scripts/analysis/analyze-instantaneous.R \
 	progress/CPM3D-tracks ../figure2/settings/params3D.txt \
 	../scripts/analysis/trackAnalysisFunctions.R
-	Rscript $< CPM3D $(NSIM_3D) ../figure2/settings/params3D.txt "mact lact" "2 1" 3 "$(torus_3D)" $@
+	Rscript $< CPM3D $(NSIM) ../figure2/settings/params3D.txt "mact lact" "2 1" 3 "$(torus_3D)" $@
 
 # Make the plot
 plots/F3panelC-3D.pdf : ../scripts/plotting/plot-instantaneous-speed-MactLact-facet-selection.R \

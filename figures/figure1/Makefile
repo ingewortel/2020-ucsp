@@ -4,11 +4,15 @@
 all : figure1.pdf
 
 # =============================== SETTINGS =====================================
+# Get general make variables from a general configuration file.
+include ../settings.env
+
+# Specific for this figure:
+#
 # path to here from ../scripts/simulation/ where scripts are
 pathToHere=../../figure1
 
 # number of simulations
-NSIM=20
 SIMULATIONS := $(shell seq 1 ${NSIM})
 
 # for the example tract with act model: lambda_act, max_act, and number of tracks

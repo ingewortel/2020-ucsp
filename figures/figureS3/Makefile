@@ -4,11 +4,9 @@
 all : figureS3.pdf
 
 # =============================== SETTINGS =====================================
-# Expected cell-length of a cell.
-# This is used to compare the persistence time to the time it takes a cell to move
-# one cell length at the current speed.
-# 1D/2D cells are modelled as rectangles/squares respectively, with an area=500pix.
-CL1D=50
+# Get make variables from a general configuration file.
+
+include ../settings.env
 
 # ================================ FIGURE ======================================
 
@@ -30,9 +28,7 @@ simulation-panels : $(foreach p, $(panels), plots/SF3$(p).pdf)
 # 2D/3D analysis in figure 4. Data have already been analyzed in
 # ../figure2/data/CPM1D-speedpersistence-all.txt, so get the data from there.
 data/CPM1D-speedpersistence-all.txt : | data
-	cd ../figure2 && $(MAKE) data/CPM1D-speedpersistence-all.txt &&\
-	cp data/CPM1D-speedpersistence-all.txt ../figureS3/data/
-
+	cd data && ln -s ../../figure2/data/CPM1D-speedpersistence-all.txt
 
 # this script generates both plots at once (also plots/SF3panel-persistence.pdf)
 plots/SF3panel-speed.pdf : ../scripts/plotting/plot-vs-lact-facet.R \

@@ -7,16 +7,8 @@ all : figure5.pdf
 # path to here from ../scripts/simulation/ where scripts are
 pathToHere=../../figure5
 
-# number of simulations
-NSIM=30
-torus_skin=150 150
-
-# Expected cell-length of a cell.
-# This is used to compare the persistence time to the time it takes a cell to move
-# one cell length at the current speed.
-# 1D/2D cells are modelled as rectangles/squares respectively, with an area=500pix.
-CLskin=45
-
+# Get other make variables from a general configuration file.
+include ../settings.env
 
 # ================================ FIGURE ======================================
 

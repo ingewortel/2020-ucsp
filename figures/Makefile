@@ -43,34 +43,34 @@ progress :
 figure1/figure1.pdf : | progress
 	cd figure1 && $(MAKE) && touch ../progress/figure1
 
-figureS1/figureS1.pdf : | progress
+figureS1/figureS1.pdf : figure1/figure1.pdf | progress
 	cd figureS1 && $(MAKE) && touch ../progress/figureS1
 
-figure2/figure2.pdf : | progress
+figure2/figure2.pdf : figureS1/figureS1.pdf | progress
 	cd figure2 && $(MAKE) && touch ../progress/figure2
 	
-figure5/figure5.pdf : | progress
+figure5/figure5.pdf : figure2/figure2.pdf | progress
 	cd figure5 && $(MAKE) && touch ../progress/figure5
 
 # figures 3, 4, S3 analyze data from figure2
-figure3/figure3.pdf : figure2/figure2.pdf
+figure3/figure3.pdf : figure5/figure5.pdf figure2/figure2.pdf
 	cd figure3 && $(MAKE) && touch ../progress/figure3
 
-figure4/figure4.pdf : figure2/figure2.pdf
+figure4/figure4.pdf : figure3/figure3.pdf figure2/figure2.pdf
 	cd figure4 && $(MAKE) && touch ../progress/figure4
 
-figureS3/figureS3.pdf : figure2/figure2.pdf
+figureS3/figureS3.pdf : figure4/figure4.pf figure2/figure2.pdf
 	cd figureS3 && $(MAKE) && touch ../progress/figureS3
 	
 # figure S2 uses data from figure2 and figure3 
-figureS2/figureS2.pdf : figure3/figure3.pdf figure2/figure2.pdf
+figureS2/figureS2.pdf : figureS3/figureS3.pdf figure3/figure3.pdf figure2/figure2.pdf
 	cd figureS2 && $(MAKE) && touch ../progress/figureS2
 
 # figures S4 and S5 use data from figure5 (skin simulations)
-figureS4/figureS4.pdf : figure5/figure5.pdf
+figureS4/figureS4.pdf : figureS2/figureS2.pdf figure5/figure5.pdf
 	cd figureS4 && $(MAKE) && touch ../progress/figureS4
 
-figureS5/figureS5.pdf : figure5/figure5.pdf
+figureS5/figureS5.pdf : figureS4/figureS4.pdf figure5/figure5.pdf
 	cd figureS5 && $(MAKE) && touch ../progress/figureS5
 
 

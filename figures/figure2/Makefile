@@ -7,25 +7,8 @@ all : figure2.pdf
 # path to here from ../scripts/simulation/ where scripts are
 pathToHere=../../figure2
 
-# number of simulations
-NSIM=30
-NSIM_3D=30
-
-torus_3D=150 150 150
-torus_2D=150 150
-torus_1D=150 NA
-
-# Expected cell-length of a cell.
-# This is used to compare the persistence time to the time it takes a cell to move
-# one cell length at the current speed.
-# 1D/2D cells are modelled as rectangles/squares respectively, with an area=500pix.
-CL1D=50
-CL2D=22.36
-# 3D cells have volume = 1800 pix, yielding a length of 12 (cell modeled as cube,
-# length = volume^(1/3).)
-CL3D=12
-
-
+# Get other make variables from a general configuration file.
+include ../settings.env
 
 # ================================ FIGURE ======================================
 
@@ -178,7 +161,7 @@ plots/F2panelB-2D.pdf : ../scripts/plotting/plot-speed-persistence-MactLact.R \
 data/mkfiles/CPM3D.make : ../scripts/simulation/simulations-lact-mact-makeout.sh \
 	settings/params3D.txt settings/conf-3D.js | data/mkfiles
 	bash $< ../scripts/simulation settings/conf-3D.js settings/params3D.txt \
-		$(NSIM_3D) CPM3D $(pathToHere) > $@
+		$(NSIM) CPM3D $(pathToHere) > $@
 
 # To actually generate the tracks, call "make" on the Makefile generated in the 
 # previous step. The required scripts are in the dependencies to ensure that tracks
@@ -205,7 +188,7 @@ data/mkfiles/analyze-CPM3D.make : ../scripts/analysis/analysis-lact-mact-makeout
 	progress/CPM3D-tracks settings/params3D.txt | data/mkfiles
 	rm -f data/CPM3D-speedpersistence-all.txt && rm -rf data/analysis-CPM3D/tmp && \
 		rm -rf data/analysis-CPM3D/acorplots && \
-	bash $< data/tracks settings/params3D.txt $(NSIM_3D) CPM3D 3 "$(torus_3D)" > $@
+	bash $< data/tracks settings/params3D.txt $(NSIM) CPM3D 3 "$(torus_3D)" > $@
 
 # To get the final output, the above makefile is called to generate the analysis files.
 # For each parameter combination, the NSIM simulations are grouped in groups of 5 tracks

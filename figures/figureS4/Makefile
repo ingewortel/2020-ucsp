@@ -4,8 +4,9 @@
 all : figureS4.pdf
 
 # =============================== SETTINGS =====================================
+# Get make variables from a general configuration file.
 
-NSIM=30
+include ../settings.env
 
 # ================================ FIGURE ======================================
 
@@ -32,7 +33,7 @@ progress/CPMskin-tracks : | data progress
 	touch ../progress/CPMskin-tracks
 
 settings/paramsskin.txt : | settings
-	cp ../figure5/settings/paramsskin.txt settings/
+	cd settings && ln -s  ../../figure5/settings/paramsskin.txt
 
 
 # Compute the instantaneous speeds etc.

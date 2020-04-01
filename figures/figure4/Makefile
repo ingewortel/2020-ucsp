@@ -7,24 +7,8 @@ all : figure4.pdf
 # path to here from ../scripts/simulation/ where scripts are
 pathToHere=../../figure4
 
-# number of simulations
-NSIM=30
-NSIM_3D=30
-
-torus_3D=150 150 150
-torus_2D=150 150
-torus_1D=150 NA
-
-# Expected cell-length of a cell.
-# This is used to compare the persistence time to the time it takes a cell to move
-# one cell length at the current speed.
-# 1D/2D cells are modelled as rectangles/squares respectively, with an area=500pix.
-CL1D=50
-CL2D=22.36
-# 3D cells have volume = 1800 pix, yielding a length of 12 (cell modeled as cube,
-# length = volume^(1/3).)
-CL3D=12
-
+# Get other make variables from a general configuration file.
+include ../settings.env
 
 
 # ================================ FIGURE ======================================
@@ -34,7 +18,7 @@ figure4.pdf : latex/figure4.pdf
 
 latex/figure4.pdf : latex/figure4.tex simulation-panels
 	cd latex && latexmk -pdf figure4.tex && cp figure4.pdf ../ ;\
-	latexmk -c
+	latexmk -c && rm -f ../Rplots.pdf
 
 
 panels=panelA panelB
@@ -45,8 +29,7 @@ simulation-panels : $(foreach p, $(panels), plots/F4$(p).pdf)
 #
 # Get data from figure 2
 data/CPM2D-speedpersistence-all.txt : | data
-	cd ../figure2 && $(MAKE) data/CPM2D-speedpersistence-all.txt && \
-	cd ../figure4/data && ln -s ../../figure2/data/CPM2D-speedpersistence-all.txt
+	cd data && ln -s ../../figure2/data/CPM2D-speedpersistence-all.txt
 
 # Make the plot
 plots/F4panelA.pdf : ../scripts/plotting/plot-vs-lact-facet-selection.R \
@@ -58,8 +41,7 @@ plots/F4panelA.pdf : ../scripts/plotting/plot-vs-lact-facet-selection.R \
 #
 # Get data from figure 3
 data/CPM3D-speedpersistence-all.txt : | data
-	cd ../figure2 && $(MAKE) data/CPM3D-speedpersistence-all.txt && \
-	cd ../figure4/data && ln -s ../../figure2/data/CPM3D-speedpersistence-all.txt
+	cd data && ln -s ../../figure2/data/CPM3D-speedpersistence-all.txt
 
 # Make the plot
 plots/F4panelB.pdf : ../scripts/plotting/plot-vs-lact-facet-selection.R \

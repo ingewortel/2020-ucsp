@@ -4,12 +4,9 @@
 all : figureS2.pdf
 
 # =============================== SETTINGS =====================================
+# Get make variables from a general configuration file.
 
-
-# number of simulations
-NSIM=30
-CL2D=22.36
-
+include ../settings.env
 
 # ================================ FIGURE ======================================
 
@@ -31,8 +28,7 @@ simulation-panels : $(foreach p, $(panels), plots/SF2$(p).pdf)
 # those in the main figure. They have already been analyzed and the data is in
 # ../figure2/data/CPM2D-speedpersistence-all.txt, so get the data from there.
 data/CPM2D-speedpersistence-all.txt : | data
-	cd ../figure2 && $(MAKE) data/CPM2D-speedpersistence-all.txt &&\
-	cp data/CPM2D-speedpersistence-all.txt ../figureS2/data/
+	cd data && ln -s  ../../figure2/data/CPM2D-speedpersistence-all.txt
 
 # Make the plot:
 plots/SF2panelA.pdf : ../scripts/plotting/plot-speed-persistence-MactLact-facet-selection.R \
@@ -45,8 +41,7 @@ plots/SF2panelA.pdf : ../scripts/plotting/plot-speed-persistence-MactLact-facet-
 # those in figure 3. They have already been analyzed and the data is in
 # ../figure3/data/CPM2D-instantaneous.Rdata, so get the data from there.
 data/CPM2D-instantaneous.Rdata : | data
-	cd ../figure3 && $(MAKE) data/CPM2D-instantaneous.Rdata &&\
-	cp data/CPM2D-instantaneous.Rdata ../figureS2/data/
+	cd data && ln -s ../../figure3/data/CPM2D-instantaneous.Rdata
 	
 # Make the plot:
 plots/SF2panelB.pdf : ../scripts/plotting/plot-instantaneous-speed-MactLact-facet-selection.R \
@@ -70,9 +65,7 @@ plots/SF2panelD-speed.pdf : ../scripts/plotting/plot-saturation-vs-mact.R \
 # =============================== PANEL E =======================================
 # And now on CPM3D-speedpersistence-all.txt; get it from figure 2.
 data/CPM3D-speedpersistence-all.txt : | data
-	cd ../figure2 && $(MAKE) data/CPM3D-speedpersistence-all.txt &&\
-	cp data/CPM3D-speedpersistence-all.txt ../figureS2/data/
-
+	cd data && ln -s ../../figure2/data/CPM3D-speedpersistence-all.txt
 
 # this generates both the speed and persistence plots
 plots/SF2panelE-speed.pdf : ../scripts/plotting/plot-saturation-vs-mact.R \

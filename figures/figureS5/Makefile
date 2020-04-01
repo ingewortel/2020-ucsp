@@ -4,9 +4,9 @@
 all : figureS5.pdf
 
 # =============================== SETTINGS =====================================
+# Get make variables from a general configuration file.
 
-NSIM=30
-CLskin=45
+include ../settings.env
 
 # ================================ FIGURE ======================================
 
@@ -28,9 +28,7 @@ simulation-panels : $(foreach p, $(panels), plots/SF5$(p).pdf)
 # 2D/3D analysis in figure 4. Data have already been analyzed in
 # ../figure5/data/CPMskin-speedpersistence-all.txt, so get the data from there.
 data/CPMskin-speedpersistence-all.txt : | data
-	cd ../figure5 && $(MAKE) data/CPMskin-speedpersistence-all.txt &&\
-	cp data/CPMskin-speedpersistence-all.txt ../figureS5/data/
-
+	cd data && ln -s ../../figure5/data/CPMskin-speedpersistence-all.txt
 
 # this script generates both plots at once (also plots/SF3panel-persistence.pdf)
 plots/SF5panel-speed.pdf : ../scripts/plotting/plot-vs-lact2.R \
