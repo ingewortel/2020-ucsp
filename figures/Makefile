@@ -4,7 +4,8 @@
 all : all-figures
 
 figs=1 2 3 4 5 S1 S2 S3 S4 S5
-
+mainfigs=1 2 3 4 5
+suppfigs=S1 S2 S3 S4 S5
 
 clean-all : $(foreach f, $(figs), clean-figure-$(f))
 
@@ -12,6 +13,25 @@ clean-figure-% :
 	cd figure$* && make clean
 
 all-figures : $(foreach f, $(figs), figure$(f)/figure$(f).pdf)
+
+main-figures : $(foreach f, $(mainfigs), figure$(f)/figure$(f).pdf)
+supp-figures : $(foreach f, $(suppfigs), figure$(f)/figure$(f).pdf)
+
+# Combined figures
+figures.pdf : latex/figures.pdf
+	cp $< $@
+	
+latex/figures.pdf : latex/figures.tex  main-figures
+	cd latex && latexmk -pdf figures.tex ;\
+	latexmk -c
+
+supp-figures.pdf : latex/supp-figures.pdf
+	cp $< $@
+	
+latex/supp-figures.pdf : latex/supp-figures.tex  supp-figures
+	cd latex && latexmk -pdf supp-figures.tex ;\
+	latexmk -c
+
 
 
 progress : 
