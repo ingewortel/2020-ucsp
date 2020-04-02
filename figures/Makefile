@@ -1,7 +1,7 @@
 .SECONDARY:
 .DELETE_ON_ERROR:
 
-all : all-figures
+all : figures.pdf supp-figures.pdf
 
 figs=1 2 3 4 5 S1 S2 S3 S4 S5
 mainfigs=1 2 3 4 5
