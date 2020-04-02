@@ -2,3 +2,5 @@ node_modules
 aux
 figures.pdf
 supp-figures.pdf
+figure*/figure*.pdf
+progress

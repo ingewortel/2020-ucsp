@@ -70,4 +70,4 @@ latex-clean :
 	rm -f latex/*.pdf
 	
 clean : latex-clean
-	rm -f figure*.pdf && rm -rf data && rm -rf plots
+	rm -f figure*.pdf && rm -rf data && rm -rf plots && rm -rf progress

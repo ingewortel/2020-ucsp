@@ -59,7 +59,7 @@ figure3/figure3.pdf : figure5/figure5.pdf figure2/figure2.pdf
 figure4/figure4.pdf : figure3/figure3.pdf figure2/figure2.pdf
 	cd figure4 && $(MAKE) && touch ../progress/figure4
 
-figureS3/figureS3.pdf : figure4/figure4.pf figure2/figure2.pdf
+figureS3/figureS3.pdf : figure4/figure4.pdf figure2/figure2.pdf
 	cd figureS3 && $(MAKE) && touch ../progress/figureS3
 	
 # figure S2 uses data from figure2 and figure3 
