@@ -94,17 +94,18 @@ let config = {
 	}
 }
 /*	---------------------------------- */
-let sim, meter
+let sim, meter, tissue = "stiff"
 
 
 function initialize(){
 	sim = new CPM.Simulation( config, {
 		initializeGrid : initializeGrid
 	} )
+	
+	initializeControls()
 
 
 	meter = new FPSMeter({left:"auto", right:"5px"})
-	step()
 }
 
 
@@ -175,16 +176,86 @@ function initializeGrid(){
 }
 
 
+function initializeControls(){
+	document.getElementById("lact").value = sim.C.getConstraint('ActivityConstraint').conf.LAMBDA_ACT[1]
+	document.getElementById("mact").value = sim.C.getConstraint('ActivityConstraint').conf.MAX_ACT[1]
+	document.getElementById("ttype").value = tissue
+}
+
+function killCells(){
+	let pix = sim.C.getStat( CPM.PixelsByCell )
+	for( let i of sim.C.cellIDs() ){
+		
+			let cellpix = pix[i]
+			for( let p of cellpix ){
+				sim.C.setpixi( sim.C.grid.p2i(p), 0 )
+			}
+		
+	}
+	for( let t = 0; t < 100; t++ ){
+		sim.step()
+	}
+}
+
+function setTissueType(){
+
+	if( tissue == "stiff" ){
+		sim.C.conf["LAMBDA_P"][2] = 10
+		cim.C.conf["J"][2][2] = 200
+	} else if ( tissue == "deformable" ){
+		sim.C.conf["LAMBDA_P"][2] = 1
+		cim.C.conf["J"][2][2] = 2
+	} else {
+		throw("unknown tissue type!")
+	}
+		
+}
 
 
 
 // No custom methods.
 </script>
 </head>
-<body onload="initialize()">
-<h1>ActModel</h1>
+<body onload="initialize();step()">
+<h1>Act cell in a tissue</h1>
 <p>
-Model of a migrating cell. 
+Model of a cell migrating in a densely packed tissue.
 </p>
+
+
+<div frame="box">
+<div>
+<table frame="box">
+<tr>
+	<td>&lambda;<sub>act</sub></td><td>
+		<input type="text" value="500" id="lact" oninput="sim.C.getConstraint('ActivityConstraint').conf.LAMBDA_ACT[1]=parseInt(this.value)">
+	</td>
+	<td>max<sub>act</sub></td><td>
+		<input type="text" value="40" id="mact" oninput="sim.C.getConstraint('ActivityConstraint').conf.MAX_ACT[1]=parseInt(this.value)">
+	</td>
+</tr>
+
+
+</table>
+</div>
+<div>
+	  <label for="ttype">Choose tissue type:</label>
+	  <select id="ttype" name="ttype" onchange="tissue=this.value">
+		<option value="stiff">Stiff</option>
+		<option value="deformable">Deformable</option>
+	  </select>
+	  <button onclick="setTissueType()">set tissue</button>
+	  <br><br>
+</div>
+<div>
+<button onclick="sim.toggleRunning()">start/stop</button>
+<button onclick="killCells();sim.initializeGrid()">reseed Cells</button>
+</div>
+
+
+</div>
+<br>
+
+
 </body>
 </html>

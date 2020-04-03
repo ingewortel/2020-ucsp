@@ -111,9 +111,8 @@ function initialize(){
 	 
 	sim = new CPM.Simulation( config, custommethods )
 
-
+	initializeControls()
 	meter = new FPSMeter({left:"auto", right:"5px"})
-	step()
 }
 
 
@@ -169,12 +168,55 @@ function buildChannel(){
 		
 }
 
+function initializeControls(){
+	document.getElementById("lact").value = sim.C.getConstraint('ActivityConstraint').conf.LAMBDA_ACT[1]
+	document.getElementById("mact").value = sim.C.getConstraint('ActivityConstraint').conf.MAX_ACT[1]
+}
+
+function killCells(){
+	let pix = sim.C.getStat( CPM.PixelsByCell )
+	for( let i of sim.C.cellIDs() ){
+		if( sim.C.cellKind(i) == 1 ){
+			let cellpix = pix[i]
+			for( let p of cellpix ){
+				sim.C.setpixi( sim.C.grid.p2i(p), 0 )
+			}
+		}
+	}
+	for( let t = 0; t < 100; t++ ){
+		sim.step()
+	}
+}
+
 </script>
 </head>
-<body onload="initialize()">
+<body onload="initialize();step()">
 <h1>Microchannel</h1>
 <p>
 Act cells moving in a microchannel.
 </p>
+
+
+<div frame="box">
+<div>
+<table frame="box">
+<tr>
+	<td>&lambda;<sub>act</sub></td><td>
+		<input type="text" value="500" id="lact" oninput="sim.C.getConstraint('ActivityConstraint').conf.LAMBDA_ACT[1]=parseInt(this.value)">
+	</td>
+	<td>max<sub>act</sub></td><td>
+		<input type="text" value="40" id="mact" oninput="sim.C.getConstraint('ActivityConstraint').conf.MAX_ACT[1]=parseInt(this.value)">
+	</td>
+</tr>
+
+
+</table>
+</div>
+<button onclick="sim.toggleRunning()">start/stop</button>
+<button onclick="killCells();sim.gm.seedCell(1)">reseed Cell</button>
+</div>
+<br><br>
+
+
 </body>
 </html>
