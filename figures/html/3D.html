@@ -18,7 +18,7 @@
 <script src="../scripts/cpmjs/build/cpm.js"></script>
 <script src="../scripts/cpmjs/fpsmeter.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/three.js/102/three.min.js"></script>
-<script type="text/javascript" src="./TrackballControls.js"></script>
+<script type="text/javascript" src="./OrbitControls.js"></script>
 <script type="text/javascript" src="./Canvas3D.js"></script>
 <script type="text/javascript">
 
@@ -84,15 +84,14 @@ function postMCSListener(){
   		C.time = 0
   	}
   	
-  	// Tick the meter to see simulation speed
-	meter.tick()
-
 	// If the simulation is running, call the mainloop to call a simulation step.
 	// After the simulation step, the postMCSListener will automatically be called.
 	// If the simulation is paused, call the emptyloop to keep running 
 	// only the postMCSListener without actually performing a timestep on the CPM.
 	// This ensures that you can view and rotate the cell without running the simulation.
   	if( !stopit  ){
+		// Tick the meter to see simulation speed
+		meter.tick()
   		requestAnimationFrame( mainloop )
   	} else {
   		requestAnimationFrame( emptyloop )

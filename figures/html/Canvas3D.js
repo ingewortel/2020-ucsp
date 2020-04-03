@@ -61,7 +61,7 @@ class Canvas3D {
 		this.gridComponents = []
 		
 		// renderer settings
-		this.w = 500 // || this.container.offsetWidth
+		this.w = 700 // || this.container.offsetWidth
 		this.h = this.w
 		
 		this.canvasColor = options["CANVASCOLOR"] || this.getCol( "FFFFFF" )
@@ -79,7 +79,7 @@ class Canvas3D {
 		// Create a scene, camera, controls, lighting, etc. 
 		this.scene = new THREE.Scene()
 		this.setupCamera()
-		this.controls = new THREE.TrackballControls( this.camera, this.container )
+		this.controls = new THREE.OrbitControls( this.camera, this.container )
 		this.setup()
 	}
 	
@@ -118,10 +118,18 @@ class Canvas3D {
 	
 		this.controls.rotateSpeed = conf.rotateSpeed || 2.0
 		this.controls.zoomSpeed = conf.zoomSpeed || 1.2
-		this.controls.panSpeed = conf.panSpeed || 0.8
+		this.controls.panSpeed = 0.8 || conf.panSpeed || 0.8
+		
+		this.controls.staticMoving = true
+		this.controls.dynamicDampingFactor=0.2
+		
+		this.controls.noZoom = false
+		this.controls.noPan = false
+		this.controls.noRotate = false
 		
 		const target = conf.target || this.C.midpoint
 		this.controls.target.set(target[0], target[1], target[2] )
+		this.controls.keys = [ 65, 83, 68 ]
 	
 	}
 	
@@ -269,7 +277,7 @@ class Canvas3D {
 	 * to black) and at the given [opacity] (defaults to 0.2). */
 	drawCells( kind, col, opacity ){
 	
-		opacity = opacity || 0.2
+		opacity = opacity || 0.4
 		if( ! col ){ col = "000000" }
 		let color
 		if( typeof col == "string" ){ color = this.getCol( col ) }
@@ -292,7 +300,7 @@ class Canvas3D {
 	/* Draw all the border voxels with non-zero activity of all cells of kind [kind] in 
 	 * a color reflecting their current activity level at the given [opacity] 
 	 * (defaults to 0.3). */
-	drawActivityValues( kind, A, opacity = 0.3 ){
+	drawActivityValues( kind, A, opacity = 0.4 ){
 		if( !A ){
 			for( let c of this.C.soft_constraints ){
 				if( c instanceof CPM.ActivityConstraint | c instanceof CPM.ActivityMultiBackground ){
