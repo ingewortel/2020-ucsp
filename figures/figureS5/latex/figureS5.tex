@@ -22,6 +22,18 @@
 	\node[anchor = north west] at (0,0) {\figf B};		
 \end{scope}
 
+\begin{scope}[yshift=-11.6cm]
+
+	\node[anchor = north west] at (0,-0.3) {\includegraphics{../cartoons/geometry.pdf}};
+
+	\node[anchor = north west] (eq1) at (7.5,-0.3) {$h^2 + (\frac{d}{2})^2 = d^2$};
+	\node[anchor = north west, below = 0mm of eq1.south] (eq2) {$h = \frac{d}{2}\sqrt{3}$};
+	\node[anchor = north west, below = 0mm of eq2.south] (eq3) {$A = 6 \cdot (\frac{1}{2}dh) = \frac{3}{2}d^2\sqrt{3}$};
+	\node[anchor = north west, below = 0mm of eq3.south] (eq4) {$d = \sqrt{\frac{A}{\frac{3}{2}\sqrt{3}}} = \sqrt{ \frac{2A}{3\sqrt{3}} }$};
+
+	\node at (0,0) {\figf C};
+\end{scope}
+
 
 \end{tikzpicture}
 
