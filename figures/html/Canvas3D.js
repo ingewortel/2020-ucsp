@@ -20,7 +20,9 @@
  *		"this.voxellookup" table and the "this.voxelcounter". 
  */
 
-
+/* globals THREE */
+ /* assumes that THREE refers to a three.js object. We used the version available at:
+ * https://cdnjs.cloudflare.com/ajax/libs/three.js/102/three.min.js */
 class Canvas3D {
 	
 	constructor( C, options ){

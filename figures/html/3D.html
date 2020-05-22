@@ -22,10 +22,13 @@
 <script type="text/javascript" src="./Canvas3D.js"></script>
 <script type="text/javascript">
 
+// For capturing a video
+let frameCaptureSocket = new WebSocket("ws://localhost:1337")
+
 
 // Some parameters and global variables
-let mesh_step = 150, ncells = 1, stopit = 0, w = 150
-let C,meter,Gi, Cim, runtime =50000, zoom = 2
+let mesh_step = 150, ncells = 1, stopit = 0, w = 300
+let C,meter,Gi, Cim, runtime =50000, zoom = 2, TAKE_SHOT=0
 
 let config = {
 	gridsize : [w,w,w],
@@ -84,6 +87,15 @@ function postMCSListener(){
   		C.time = 0
   	}
   	
+  	// Capture frame if the video capture is on
+  	if( typeof TAKE_SHOT !== "undefined" && TAKE_SHOT==1 ){
+		let x = Cim.renderer.domElement.toDataURL()
+		if( frameCaptureSocket.readyState==1 ){
+			frameCaptureSocket.send( x )
+		}
+		// TAKE_SHOT = 0
+	}
+  	
 	// If the simulation is running, call the mainloop to call a simulation step.
 	// After the simulation step, the postMCSListener will automatically be called.
 	// If the simulation is paused, call the emptyloop to keep running 
@@ -141,6 +153,16 @@ function toggleGrid(){
 	Cim.drawgrid = (!Cim.drawgrid)
 }
 
+function toggleCapture(){
+	TAKE_SHOT = (1 - TAKE_SHOT)
+	
+	if( TAKE_SHOT == 1 ){
+		document.getElementById('loggerrecord').innerText = "recording..."
+	} else {
+		document.getElementById('loggerrecord').innerText = "paused"
+	}
+}
+
 </script>
 </head>
 <body onload="initialize();startanim()">
@@ -169,6 +191,8 @@ function toggleGrid(){
 	  <button onclick="requestAnimationFrame( mainloop )">step simulation</button>
 	  <button onclick="killCells();Gi.seedCell(1)">reset cell</button>
 	  <button onclick="toggleGrid()">grid on/off</button>
+	  <button onclick="toggleCapture()">record on/off</button>
+	  <div id ="loggerrecord" style="text-align: left"></div>
 	</div>
 
 	<!-- This is the div in which the simulation will be placed.-->

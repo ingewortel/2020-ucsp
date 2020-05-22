@@ -201,10 +201,10 @@ function setTissueType(){
 
 	if( tissue == "stiff" ){
 		sim.C.conf["LAMBDA_P"][2] = 10
-		cim.C.conf["J"][2][2] = 200
+		sim.C.conf["J"][2][2] = 200
 	} else if ( tissue == "deformable" ){
 		sim.C.conf["LAMBDA_P"][2] = 1
-		cim.C.conf["J"][2][2] = 2
+		sim.C.conf["J"][2][2] = 2
 	} else {
 		throw("unknown tissue type!")
 	}
