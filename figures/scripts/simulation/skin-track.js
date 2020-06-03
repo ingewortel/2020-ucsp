@@ -7,6 +7,7 @@
  *								data/img/[value]/[value]-t[time].png.
  *	-n [simulation no]:		used as the seed of the random number generator used
  *							for this simulation.
+ *  -i [runtime]:			runtime of the simulation.
  */
 
 const args = require('minimist')(process.argv.slice(2));
@@ -17,9 +18,10 @@ const lact = parseInt( args.l )
 const tissue = args.t
 const imgsave = args.d || "none"
 const simnum = parseInt( args.n )
+const runtime = parseInt( args.i )
 
 
-let CPM = require("../cpmjs/build/cpm-cjs.js")
+let CPM = require("../artistoo/build/artistoo-cjs.js")
 let config = require( settingsfile )
 
 
@@ -27,6 +29,7 @@ let config = require( settingsfile )
 config.conf["MAX_ACT"][1] = mact
 config.conf["LAMBDA_ACT"][1] = lact
 config.conf.seed = simnum
+config.simsettings.RUNTIME=runtime
 
 if( imgsave === "none" ){
 	config.simsettings.SAVEIMG = false

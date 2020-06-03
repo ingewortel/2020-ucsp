@@ -47,9 +47,16 @@ dmean <- d %>%
 			m_persistence = mean( persistence, na.rm=TRUE ),
 			sd_persistence = sd( persistence, na.rm=TRUE ),
 			values_persistence = sum( !is.na( persistence ) ) ) %>%
-	filter( values_persistence > 1 ) %>%
-	filter( mact != 19 )%>%
-	filter( m_persistence <= ymax )
+	filter( mact != 19 )
+
+# If enough estimations were made, only include parameter combinations where persistence 
+# estimation succeeded at least twice. Otherwise issue a warning.
+group_n <- max( dmean$values_persistence )
+if( group_n >= 3 ){
+	dmean <- dmean %>% filter( values_persistence > 1 )
+} else {
+	warning( "Not enough analysis groups to check if persistence estimates are reliable. Just plotting all data." )
+}
 
 
 

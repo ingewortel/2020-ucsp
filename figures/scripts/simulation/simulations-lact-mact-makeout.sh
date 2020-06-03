@@ -12,6 +12,8 @@
 #						used to name the files where tracks are saved.
 # 6) pathToHere 		path to the current folder from the location of the node
 #						script simple-track.js (figures/scripts/simulation/)
+# 7) runtime			number of MCS (steps) to run the simulation. This overrules
+#						the setting in the settingsFile.
 # 
 # 
 # OUTPUT: Makefile that generates tracks data/tracks/[expname]-lact[LACT]-mact[MACT]-sim[SIM].txt.
@@ -23,6 +25,7 @@ paramFile=$3
 nsim=$4
 expName=$5
 pathToHere=$6
+runtime=$7
 
 
 # ---------------------------------------------------------------------
@@ -74,7 +77,7 @@ for p in $(seq 1 $np) ; do
 			# Write the target, dependencies, and recipe for this particular track
 			# to the Makefile.
 			echo "$TRACK : $scriptDir/simple-track.js $settingsFile | data/tracks"
-			echo -e "\t@"node \$\< -s $pathToHere/$settingsFile -m $MACT -l $LACT -n $sim $addmicrochannel "> \$@"
+			echo -e "\t@"node \$\< -s $pathToHere/$settingsFile -m $MACT -l $LACT -n $sim $addmicrochannel -i $runtime "> \$@"
 			echo ""
 
 			# Add this track to the list of all tracks to generate

@@ -12,6 +12,10 @@ simgroupsize <- as.numeric( argv[6] )
 torusFieldsize <- as.numeric( unlist( strsplit( argv[7], " " ) ) )
 expName <- argv[8]
 
+# Check that nsim is a multiple of simgroupsize
+if( nsim %% simgroupsize != 0 ){
+	stop( "nsim must be a multiple of simgroupsize! Please adjust the GROUPSIZE property in settings.env accordingly." )
+}
 
 # get parameter values and parameter names
 parmValues <- setNames( parms, parmnames )

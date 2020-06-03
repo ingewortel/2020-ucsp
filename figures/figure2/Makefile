@@ -40,7 +40,7 @@ cartoon-panels : cartoons/all-setup.pdf cartoons/gradient.pdf
 data/mkfiles/CPM1D.make : ../scripts/simulation/simulations-lact-mact-makeout.sh \
 	settings/params1D.txt settings/conf-1D.js | data/mkfiles
 	bash $< ../scripts/simulation settings/conf-1D.js settings/params1D.txt \
-		$(NSIM) CPM1D $(pathToHere) > $@
+		$(NSIM) CPM1D $(pathToHere) $(RUNTIME) > $@
 
 # To actually generate the tracks, call "make" on the Makefile generated in the 
 # previous step. The required scripts are in the dependencies to ensure that tracks
@@ -67,7 +67,7 @@ data/mkfiles/analyze-CPM1D.make : ../scripts/analysis/analysis-lact-mact-makeout
 	progress/CPM1D-tracks settings/params1D.txt | data/mkfiles
 	rm -f data/CPM1D-speedpersistence-all.txt && rm -rf data/analysis-CPM1D/tmp && \
 		rm -rf data/analysis-CPM1D/acorplots && \
-	bash $< data/tracks settings/params1D.txt $(NSIM) CPM1D 1 "$(torus_1D)" > $@
+	bash $< data/tracks settings/params1D.txt $(NSIM) CPM1D 1 "$(torus_1D)" $(GROUPSIZE) > $@
 
 # To get the final output, the above makefile is called to generate the analysis files.
 # For each parameter combination, the NSIM simulations are grouped in groups of 5 tracks
@@ -101,7 +101,7 @@ plots/F2panelB-1D.pdf : ../scripts/plotting/plot-speed-persistence-MactLact.R \
 data/mkfiles/CPM2D.make : ../scripts/simulation/simulations-lact-mact-makeout.sh \
 	settings/params2D.txt settings/conf-2D.js | data/mkfiles
 	bash $< ../scripts/simulation settings/conf-2D.js settings/params2D.txt \
-		$(NSIM) CPM2D $(pathToHere) > $@
+		$(NSIM) CPM2D $(pathToHere) $(RUNTIME) > $@
 
 # To actually generate the tracks, call "make" on the Makefile generated in the 
 # previous step. The required scripts are in the dependencies to ensure that tracks
@@ -128,7 +128,7 @@ data/mkfiles/analyze-CPM2D.make : ../scripts/analysis/analysis-lact-mact-makeout
 	progress/CPM2D-tracks settings/params2D.txt | data/mkfiles
 	rm -f data/CPM2D-speedpersistence-all.txt && rm -rf data/analysis-CPM2D/tmp && \
 		rm -rf data/analysis-CPM2D/acorplots && \
-	bash $< data/tracks settings/params2D.txt $(NSIM) CPM2D 2 "$(torus_2D)" > $@
+	bash $< data/tracks settings/params2D.txt $(NSIM) CPM2D 2 "$(torus_2D)" $(GROUPSIZE) > $@
 
 # To get the final output, the above makefile is called to generate the analysis files.
 # For each parameter combination, the NSIM simulations are grouped in groups of 5 tracks
@@ -161,7 +161,7 @@ plots/F2panelB-2D.pdf : ../scripts/plotting/plot-speed-persistence-MactLact.R \
 data/mkfiles/CPM3D.make : ../scripts/simulation/simulations-lact-mact-makeout.sh \
 	settings/params3D.txt settings/conf-3D.js | data/mkfiles
 	bash $< ../scripts/simulation settings/conf-3D.js settings/params3D.txt \
-		$(NSIM) CPM3D $(pathToHere) > $@
+		$(NSIM) CPM3D $(pathToHere) $(RUNTIME) > $@
 
 # To actually generate the tracks, call "make" on the Makefile generated in the 
 # previous step. The required scripts are in the dependencies to ensure that tracks
@@ -188,7 +188,7 @@ data/mkfiles/analyze-CPM3D.make : ../scripts/analysis/analysis-lact-mact-makeout
 	progress/CPM3D-tracks settings/params3D.txt | data/mkfiles
 	rm -f data/CPM3D-speedpersistence-all.txt && rm -rf data/analysis-CPM3D/tmp && \
 		rm -rf data/analysis-CPM3D/acorplots && \
-	bash $< data/tracks settings/params3D.txt $(NSIM) CPM3D 3 "$(torus_3D)" > $@
+	bash $< data/tracks settings/params3D.txt $(NSIM) CPM3D 3 "$(torus_3D)" $(GROUPSIZE) > $@
 
 # To get the final output, the above makefile is called to generate the analysis files.
 # For each parameter combination, the NSIM simulations are grouped in groups of 5 tracks

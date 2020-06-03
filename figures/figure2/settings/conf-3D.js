@@ -43,7 +43,8 @@ let config = {
 											// non-background cellkinds.
 		// Runtime etc
 		BURNIN : 500,
-		RUNTIME : 50000,
+		RUNTIME : 50000,	// this gets overwritten in the simulation node scripts; 
+							// please adjust this in settings.env.
 		
 		// Visualization: none in 3D.
 		SAVEIMG : false,					// Should a png image of the grid be saved

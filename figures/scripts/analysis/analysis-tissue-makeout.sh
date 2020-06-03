@@ -11,6 +11,7 @@
 # 5) nDim			number of dimensions of the simulation: 2, or 3.
 # 6) torusFieldsize	space-delimited vector of grid dimensions to correct torus for. If
 #					a dimension does no thave a torus, enter NA for that dimension.
+# 7) groupSize		the size of the analysis groups used for robust analysis.
 # 
 # 
 # OUTPUT: Makefile that generates analysis files.
@@ -22,6 +23,7 @@ nSim=$3
 expName=$4
 nDim=$5
 torusFieldsize=$6
+groupSize=$7
 
 
 # ---------------------------------------------------------------------
@@ -61,7 +63,7 @@ for p in $(seq 1 $np) ; do
 		TRACK=data/tracks/$NAME-sim
 		SIMOUT=data/analysis-$expName/tmp/analysis-$NAME.txt
 		echo "$SIMOUT : ../scripts/analysis/analyze-speed-persistence-combined.R ../scripts/analysis/trackAnalysisFunctions.R $TRACK$nSim.txt | data/analysis-$expName/tmp data/analysis-$expName/acorplots"
-		echo -e "\t@"Rscript \$\< $TRACK $nDim \"$LACT $MACT $TISS\" \"lact mact tissue\" $nSim 5 \"$torusFieldsize\" $expName " | awk 'NR>1{print \$0}' > \$@"
+		echo -e "\t@"Rscript \$\< $TRACK $nDim \"$LACT $MACT $TISS\" \"lact mact tissue\" $nSim $groupSize \"$torusFieldsize\" $expName " | awk 'NR>1{print \$0}' > \$@"
 		fileList=$fileList" "$SIMOUT			
 
 
@@ -84,4 +86,4 @@ echo -e "\tmkdir -p \$@"
 # A message to print when the analysis starts.
 echo "message : "
 echo -e "\t@"echo "Analyzing $trackNum tracks in data/tracks. $nSim simulations." \
-	"Recipe: Rscript ../scripts/analysis/analyze-speed-persistence-combined.R data/tracks/$expName-lact[LACT]-mact[MACT]-tissue[stiff/deformable] $nDim [LACT] [MACT] [NSIM] 5 [torus fieldsize] [expname]" 
+	"Recipe: Rscript ../scripts/analysis/analyze-speed-persistence-combined.R data/tracks/$expName-lact[LACT]-mact[MACT]-tissue[stiff/deformable] $nDim [LACT] [MACT] [NSIM] [groupSize] [torus fieldsize] [expname]" 

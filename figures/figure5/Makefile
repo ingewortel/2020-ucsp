@@ -34,7 +34,7 @@ simulation-panels : $(foreach p, $(panels), plots/F5$(p).pdf)
 data/mkfiles/CPMskin.make : ../scripts/simulation/simulations-tissue-makeout.sh \
 	settings/paramsskin.txt settings/conf-skin.js | data/mkfiles
 	bash $< ../scripts/simulation settings/conf-skin.js settings/paramsskin.txt \
-		$(NSIM) CPMskin $(pathToHere) > $@
+		$(NSIM) CPMskin $(pathToHere) $(RUNTIME) > $@
 
 # To actually generate the tracks, call "make" on the Makefile generated in the 
 # previous step. The required scripts are in the dependencies to ensure that tracks
@@ -61,7 +61,7 @@ data/mkfiles/analyze-CPMskin.make : ../scripts/analysis/analysis-tissue-makeout.
 	progress/CPMskin-tracks settings/paramsskin.txt | data/mkfiles
 	rm -f data/CPMskin-speedpersistence-all.txt && rm -rf data/analysis-CPMskin/tmp && \
 		rm -rf data/analysis-CPMskin/acorplots && \
-	bash $< data/tracks settings/paramsskin.txt $(NSIM) CPMskin 2 "$(torus_skin)" > $@
+	bash $< data/tracks settings/paramsskin.txt $(NSIM) CPMskin 2 "$(torus_skin)" $(GROUPSIZE) > $@
 
 
 # To get the final output, the above makefile is called to generate the analysis files.
