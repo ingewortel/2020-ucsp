@@ -1,5 +1,6 @@
 library( mclust )
 library( ggplot2 )
+library( celltrackR )
 
 
 # functions using mclust to estimate number of gaussians and dAIC
