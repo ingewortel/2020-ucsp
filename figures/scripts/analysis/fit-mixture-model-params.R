@@ -1,6 +1,6 @@
 library( celltrackR )
 library( mclust )
-library( dplyr )
+library( dplyr, warn.conflicts = FALSE )
 library( ggplot2 )
 
 argv <- commandArgs( trailingOnly = TRUE )
