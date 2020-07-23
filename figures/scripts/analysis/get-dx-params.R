@@ -1,6 +1,6 @@
 library( celltrackR )
 library( ggplot2 )
-library( dplyr )
+library( dplyr, warn.conflicts=FALSE )
 
 argv <- commandArgs( trailingOnly = TRUE )
 
