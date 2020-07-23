@@ -23,7 +23,9 @@ lact <- parms[2]
 
 estimateComponents <- function( datalist ){
   
-  broken <- broken[[1]]
+  broken2 <- broken[[1]]
+  broken2 <- sum(broken2)/length(broken2)
+  
   
   fitsi <- lapply(datalist, function(x) Mclust( x, G=1:3,modelNames = "V" ))
   names(fitsi) <- seq(1,length(fitsi))
@@ -33,7 +35,7 @@ estimateComponents <- function( datalist ){
   BIC12 <- sapply(1:length(fitsi), function(x) as.numeric(fitsi[[x]]$BIC[2,1]) - as.numeric(fitsi[[x]]$BIC[1,1] ))
   BIC23 <- sapply(1:length(fitsi), function(x) as.numeric(fitsi[[x]]$BIC[3,1]) - as.numeric(fitsi[[x]]$BIC[2,1] ))
   
-  df <- data.frame( n = n, dBIC13 = BIC13, dBIC12 = BIC12, dBIC23 = BIC23, broken = broken, mact = mact, lact = lact )
+  df <- data.frame( n = n, dBIC13 = BIC13, dBIC12 = BIC12, dBIC23 = BIC23, broken = broken2, mact = mact, lact = lact )
   return(df)
   
 }

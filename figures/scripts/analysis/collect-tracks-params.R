@@ -43,7 +43,35 @@ all.tracks <- lapply( 1:nrow(parms), function(x){
 names( all.tracks ) <- parms$ID 
 
 
-saveRDS( all.tracks, outtracks )
+
+
+readAllBroken <- function( mact, lact, nsim ){
+
+	simnums <- seq(1,nsim)
+	conn <- lapply( simnums, function(x){
+		return( read.table( trackFileName( mact, lact, x ) )[,6] )
+	})
+	broken <- sapply( conn, function(x){
+		any( x < 0.9 )
+	})
+	return( broken )
+
+}
+
+broken <- lapply( 1:nrow(parms),function(x){ readAllBroken( parms$V1[x], parms$V2[x], nsim ) })
+saveRDS( broken, outbroken )
+
+
+all.tracks2 <- lapply( 1:length(all.tracks), function(x){
+	t <- all.tracks[[x]]
+	b <- !broken[[x]]
+	t <- t[b]
+	return(t)
+})
+names( all.tracks2 ) <- parms$ID 
+
+
+saveRDS( all.tracks2, outtracks )
 
 
 
