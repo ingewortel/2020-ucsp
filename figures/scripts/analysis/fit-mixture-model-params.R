@@ -23,6 +23,9 @@ lact <- parms[2]
 
 estimateComponents <- function( datalist ){
   
+  datalist <- dxData[[dataname]]
+  broken <- broken[[dataname]]
+  
   fitsi <- lapply(datalist, function(x) Mclust( x, G=1:3,modelNames = "V" ))
   names(fitsi) <- seq(1,length(fitsi))
   
@@ -31,13 +34,13 @@ estimateComponents <- function( datalist ){
   BIC12 <- sapply(1:length(fitsi), function(x) as.numeric(fitsi[[x]]$BIC[2,1]) - as.numeric(fitsi[[x]]$BIC[1,1] ))
   BIC23 <- sapply(1:length(fitsi), function(x) as.numeric(fitsi[[x]]$BIC[3,1]) - as.numeric(fitsi[[x]]$BIC[2,1] ))
   
-  df <- data.frame( n = n, dBIC13 = BIC13, dBIC12 = BIC12, dBIC23 = BIC23, mact = mact, lact = lact )
+  df <- data.frame( n = n, dBIC13 = BIC13, dBIC12 = BIC12, dBIC23 = BIC23, broken = broken, mact = mact, lact = lact )
   return(df)
   
 }
 
 # fit mixture models to get num components and BICs
-fits <- lapply( dxData, estimateComponents )
+fits <- lapply( names(dxData), function(x) estimateComponents[[x]] )
 outdata <- bind_rows(fits)
 
 write.table( outdata, file = outfile, col.names=FALSE, row.names=FALSE, quote=FALSE)
