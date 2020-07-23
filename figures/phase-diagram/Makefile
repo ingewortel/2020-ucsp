@@ -7,9 +7,9 @@ pathToHere=../../phase-diagram
 
 # Get other make variables from a general configuration file.
 include ../settings.env
-NSIM=30
+NSIM=10
 RUNTIME=25000
-N=25
+N=15
 
 
 
@@ -19,7 +19,7 @@ N=25
 
 # step 0: parms maxact from 10-100, lact from 10-1500 range.
 settings/params1D.txt : ../scripts/simulation/make-parms.R
-	Rscript $< "10 100" "10 1500" $(N) $@
+	Rscript $< "0 100" "0 1500" $(N) $@
 	
 
 # STEP 1: Simulate tracks. The raw tracks will be saved under:
@@ -75,14 +75,14 @@ data/analysis/p%data/dx.rds : ../scripts/analysis/get-dx-params.R data/analysis/
 	
 # Fit the mixture model to compute number of components and BICs
 data/analysis/p%data/model.txt : ../scripts/analysis/fit-mixture-model-params.R data/analysis/p%data/dx.rds
-	Rscript $^ data/analysis/p$*data/dx.rds $@
+	Rscript $^ data/analysis/p$*data/broken.rds $@
 
 FILES=$$(cat data/filelist.txt)
 
 data/filelist.txt : ../scripts/analysis/list-analysis-output.R settings/params1D.txt | data
 	Rscript $^ $@
 
-progress/analyses : 
+progress/analyses : progress/CPM1D-tracks
 		$(MAKE) $(FILES) && touch $@
 
 data/analysis/phases.txt : progress/analyses
