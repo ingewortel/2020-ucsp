@@ -10,7 +10,6 @@ outfile <- argv[2]
 outplot <- argv[3]
 
 all.tracks <- readRDS( trackfile )
-empty <- FALSE
 
 getDx <- function(tracks ){
   
@@ -29,7 +28,6 @@ getDx <- function(tracks ){
 	  disp <- lapply( ind, function(x) disp[x] )
   } else {
   	disp <- NULL
-  	empty <- TRUE
   }
   
   return( disp )
@@ -40,7 +38,7 @@ dxData <- lapply( all.tracks, getDx )
 
 saveRDS( dxData, file = outfile )
 
-if( !empty ){
+if( !any( sapply( dxData, is.null ) ) ){
 
 
 	dxdfs <- lapply( 1:length(dxData[[1]] ) , function(x){ 
