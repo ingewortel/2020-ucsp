@@ -77,19 +77,17 @@ data/analysis/p%data/dx.rds : ../scripts/analysis/get-dx-params.R data/analysis/
 data/analysis/p%data/model.txt : ../scripts/analysis/fit-mixture-model-params.R data/analysis/p%data/dx.rds
 	Rscript $^ data/analysis/p$*data/dx.rds $@
 
-PARMNUM=$$(cat settings/params1D.txt | wc -l)
-PARMNUMS=$$(seq 1 $(PARMNUM))
-FILES=$$(for i in seq 1 $(PARMNUM); do echo data/analysis/p$(i)data/model.txt)
+FILES=$$(cat data/filelist.txt)
 
+data/filelist.txt : ../scripts/analysis/list-analysis-output.R settings/params1D.txt | data
+	Rscript $^ $@
 
-test :
-	echo $(FILES)
+progress/analyses : 
+		$(MAKE) $(FILES) && touch $@
 
-
-
-data/analysis/phases.txt : $(foreach i, $(PARMNUMS), data/analysis/p$(i)data/model.txt)
+data/analysis/phases.txt : progress/analyses
 	echo "n dBIC13 dBIC12 dBIC23 mact lact" > $@ &&\
-	cat $^ >> $@
+	cat $(FILES) >> $@
 	
 
 
