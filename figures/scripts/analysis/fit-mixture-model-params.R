@@ -26,16 +26,20 @@ estimateComponents <- function( datalist ){
   broken2 <- broken[[1]]
   broken2 <- sum(broken2)/length(broken2)
   
+  if( !is.null( datalist ) ){
   
-  fitsi <- lapply(datalist, function(x) Mclust( x, G=1:3,modelNames = "V" ))
-  names(fitsi) <- seq(1,length(fitsi))
+	  fitsi <- lapply(datalist, function(x) Mclust( x, G=1:3,modelNames = "V" ))
+	  names(fitsi) <- seq(1,length(fitsi))
   
-  n <- sapply( fitsi, function(x) x$G )
-  BIC13 <- sapply(1:length(fitsi), function(x) as.numeric(fitsi[[x]]$BIC[3,1]) - as.numeric(fitsi[[x]]$BIC[1,1] ))
-  BIC12 <- sapply(1:length(fitsi), function(x) as.numeric(fitsi[[x]]$BIC[2,1]) - as.numeric(fitsi[[x]]$BIC[1,1] ))
-  BIC23 <- sapply(1:length(fitsi), function(x) as.numeric(fitsi[[x]]$BIC[3,1]) - as.numeric(fitsi[[x]]$BIC[2,1] ))
+	  n <- sapply( fitsi, function(x) x$G )
+	  BIC13 <- sapply(1:length(fitsi), function(x) as.numeric(fitsi[[x]]$BIC[3,1]) - as.numeric(fitsi[[x]]$BIC[1,1] ))
+	  BIC12 <- sapply(1:length(fitsi), function(x) as.numeric(fitsi[[x]]$BIC[2,1]) - as.numeric(fitsi[[x]]$BIC[1,1] ))
+	  BIC23 <- sapply(1:length(fitsi), function(x) as.numeric(fitsi[[x]]$BIC[3,1]) - as.numeric(fitsi[[x]]$BIC[2,1] ))
   
-  df <- data.frame( n = n, dBIC13 = BIC13, dBIC12 = BIC12, dBIC23 = BIC23, broken = broken2, mact = mact, lact = lact )
+	  df <- data.frame( n = n, dBIC13 = BIC13, dBIC12 = BIC12, dBIC23 = BIC23, broken = broken2, mact = mact, lact = lact )
+  } else {
+  	  df <- data.frame( n = NA, dBIC13 = NA, dBIC12 = NA, dBIC23 = NA, broken = broken2, mact = mact, lact = lact )
+  }
   return(df)
   
 }
