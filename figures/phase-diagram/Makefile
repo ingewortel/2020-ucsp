@@ -77,7 +77,8 @@ data/analysis/p%data/dx.rds : ../scripts/analysis/get-dx-params.R data/analysis/
 data/analysis/p%data/model.txt : ../scripts/analysis/fit-mixture-model-params.R data/analysis/p%data/dx.rds
 	Rscript $^ data/analysis/p$*data/dx.rds $@
 
-PARMNUMS=$$(seq 1 $$(cat settings/params1D.txt | wc -l))
+PARMNUM=$$(cat settings/params1D.txt | wc -l)
+PARMNUMS=$$(seq 1 $(PARMNUM))
 
 test : 
 	echo $(PARMNUMS)
