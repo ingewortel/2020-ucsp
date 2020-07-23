@@ -10,20 +10,27 @@ outfile <- argv[2]
 outplot <- argv[3]
 
 all.tracks <- readRDS( trackfile )
+empty <- FALSE
 
 getDx <- function(tracks ){
   
   nsim <- length(tracks)
   
-  # steps from tracks, then shuffle them (wo regard for simulation they come from)
-  steps <- subtracks(tracks,1)
-  steps <- sample( steps, length( steps ) )
-  #steps <- steps[1:5000]
+  if( nsim > 0 ){
   
-  # compute displacement and divide in nsim groups of displacements
-  disp <- t( sapply( steps, displacementVector) )[,1]
-  ind <- split(seq_along(disp), cut_number(seq_along(disp), nsim))
-  disp <- lapply( ind, function(x) disp[x] )
+	  # steps from tracks, then shuffle them (wo regard for simulation they come from)
+	  steps <- subtracks(tracks,1)
+	  steps <- sample( steps, length( steps ) )
+	  #steps <- steps[1:5000]
+  
+	  # compute displacement and divide in nsim groups of displacements
+	  disp <- t( sapply( steps, displacementVector) )[,1]
+	  ind <- split(seq_along(disp), cut_number(seq_along(disp), nsim))
+	  disp <- lapply( ind, function(x) disp[x] )
+  } else {
+  	disp <- NULL
+  	empty <- TRUE
+  }
   
   return( disp )
 }
@@ -33,20 +40,21 @@ dxData <- lapply( all.tracks, getDx )
 
 saveRDS( dxData, file = outfile )
 
+if( !empty ){
 
 
+	dxdfs <- lapply( 1:length(dxData[[1]] ) , function(x){ 
+		return( data.frame( num = x, 
+							dx = unname( dxData[[1]][[x]] ) ) )
+	})
+	dxdf <- bind_rows(dxdfs)
 
-dxdfs <- lapply( 1:length(dxData[[1]] ) , function(x){ 
-	return( data.frame( num = x, 
-						dx = unname( dxData[[1]][[x]] ) ) )
-})
-dxdf <- bind_rows(dxdfs)
 
-
-p <- ggplot( dxdf, aes( x = dx ) ) + 
-	geom_density() + 
-	facet_wrap( ~num ) +
-	labs( title = names( all.tracks )[1] ) +
-	theme_bw()
+	p <- ggplot( dxdf, aes( x = dx ) ) + 
+		geom_density() + 
+		facet_wrap( ~num ) +
+		labs( title = names( all.tracks )[1] ) +
+		theme_bw()
 	
-ggsave( outplot, width = 7, height = 7 )
+	ggsave( outplot, width = 7, height = 7 )
+}
