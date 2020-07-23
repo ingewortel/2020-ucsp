@@ -75,7 +75,7 @@ data/analysis/p%data/dx.rds : ../scripts/analysis/get-dx-params.R data/analysis/
 	
 # Fit the mixture model to compute number of components and BICs
 data/analysis/p%data/model.txt : ../scripts/analysis/fit-mixture-model-params.R data/analysis/p%data/dx.rds
-	Rscript $^ data/analysis/p$*data/dx.rds $@
+	Rscript $^ data/analysis/p$*data/broken.rds $@
 
 FILES=$$(cat data/filelist.txt)
 
