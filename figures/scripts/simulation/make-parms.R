@@ -15,12 +15,17 @@ llogrange <- log10( lrange )
 #N <- 15
 
 
-mlog <- seq( mlogrange[1], mlogrange[2], length.out = N+1 )
-llog <- seq( llogrange[1], llogrange[2], length.out = N+1 )
+#mlog <- seq( mlogrange[1], mlogrange[2], length.out = N+1 )
+#llog <- seq( llogrange[1], llogrange[2], length.out = N+1 )
 
+#m <- round( 10^mlog, 3 )
+#l <- round( 10^llog, 3 )
 
-m <- round( 10^mlog, 3 )
-l <- round( 10^llog, 3 )
+m <- seq( mrange[1], mrange[2], length.out = N+1 )
+l <- seq( lrange[1], lrange[2], length.out = N+1 )
+
+m <- round( m, 3 )
+l <- round( l, 3 )
 
 d <- expand.grid( m, l )
 colnames(d) <- c("m","l" )
