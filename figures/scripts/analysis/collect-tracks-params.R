@@ -60,5 +60,5 @@ readAllBroken <- function( mact, lact, nsim ){
 
 }
 
-broken <- lapply( 1:nrow(parms),function(x){ readAllBroken( parms$V1[x], parms$V2[x], 5 ) })
+broken <- lapply( 1:nrow(parms),function(x){ readAllBroken( parms$V1[x], parms$V2[x], nsim ) })
 saveRDS( broken, outbroken )
