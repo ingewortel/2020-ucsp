@@ -82,7 +82,7 @@ PARMNUMS=$$(seq 1 $$(cat settings/params1D.txt | wc -l ) )
 test : 
 	echo $(PARMNUMS)
 
-data/analysis/phases.txt : $(foreach i, $(PARMNUMS), data/analysis/p$(i)data/model.txt )
+data/analysis/phases.txt : $(foreach i, $(PARMNUMS), data/analysis/p$(i)data/model.txt)
 	echo "n dBIC13 dBIC12 dBIC23 mact lact" > $@ &&\
 	cat $^ >> $@
 	
