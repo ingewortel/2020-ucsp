@@ -1,7 +1,7 @@
 library( celltrackR )
-library( mclust )
+suppressMessages( library( mclust, quietly = TRUE ) )
 library( dplyr, warn.conflicts = FALSE )
-library( ggplot2 )
+library( ggplot2, quietly = TRUE )
 
 argv <- commandArgs( trailingOnly = TRUE )
 
