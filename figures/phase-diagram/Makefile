@@ -79,9 +79,11 @@ data/analysis/p%data/model.txt : ../scripts/analysis/fit-mixture-model-params.R 
 
 PARMNUM=$$(cat settings/params1D.txt | wc -l)
 PARMNUMS=$$(seq 1 $(PARMNUM))
+FILES=$$(for i in seq 1 $(PARMNUM); do echo data/analysis/p$(i)data/model.txt)
+
 
 test :
-	echo $(PARMNUMS)
+	echo $(FILES)
 
 
 
