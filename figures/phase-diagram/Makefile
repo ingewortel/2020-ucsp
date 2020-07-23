@@ -53,6 +53,37 @@ data/allTracks.rds : ../scripts/analysis/collect-tracks.R progress/CPM1D-tracks 
 	
 data/phases.txt : ../scripts/analysis/fitMixtureModel.R data/allTracks.rds settings/params1D.txt
 	Rscript $^ $@ 
+	
+	
+# Analysis per parameter combination in settings/params1D.txt. Loop over numbers 
+# 1:nrow(paramfile)	do do each step for the appropriate parameters.
+
+
+# Make a folder
+data/analysis/p%data :
+	@mkdir -p $@
+
+# Collect the tracks of individual simulations into a tracks object, and check how many
+# cells broke during the simulation.
+data/analysis/p%data/tracks.rds : ../scripts/analysis/collect-tracks-params.R \
+	settings/params1D.txt | data/analysis/p%data
+	Rscript $< settings/params1D.txt $* CPM1D $(NSIM) $@	data/analysis/p$*data/broken.rds
+
+# Extract dx displacements
+data/analysis/p%data/dx.rds : ../scripts/analysis/get-dx-params.R data/analysis/p%data/tracks.rds 
+	Rscript $^ $@ data/analysis/p$*data/dx.pdf
+	
+# Fit the mixture model to compute number of components and BICs
+data/analysis/p%data/model.txt : ../scripts/analysis/fit-mixture-model-params.R data/analysis/p%data/dx.rds
+	Rscript $^ data/analysis/p$*data/dx.rds $@
+
+PARMNUMS=$$(seq 1 $$(cat settings/params1D.txt | wc -l ) )
+
+data/analysis/phases.txt : $(foreach p, $(PARMNUMS), data/analysis/p$(p)data/model.txt )
+	echo "n dBIC13 dBIC12 dBIC23 mact lact" > $@ &&\
+	cat $^ >> $@
+	
+
 
 
 # ============================ FOLDERS/OTHER ====================================
@@ -65,6 +96,9 @@ data/tracks :
 	@mkdir -p $@
 	
 data/mkfiles :
+	@mkdir -p $@
+	
+data/analysis :
 	@mkdir -p $@
 	
 plots : 
