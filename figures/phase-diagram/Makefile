@@ -7,9 +7,9 @@ pathToHere=../../phase-diagram
 
 # Get other make variables from a general configuration file.
 include ../settings.env
-NSIM=10
+NSIM=30
 RUNTIME=25000
-N=15
+N=30
 
 
 
