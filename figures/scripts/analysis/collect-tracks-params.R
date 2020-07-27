@@ -52,7 +52,9 @@ readAllBroken <- function( mact, lact, nsim ){
 		return( read.table( trackFileName( mact, lact, x ) )[,6] )
 	})
 	broken <- sapply( conn, function(x){
-		any( x < 0.9 )
+		( sum( x < 0.95 )/length(x) ) > 0.05
+		#any( x < 0.8 )
+		#min( x )
 	})
 	return( broken )
 
