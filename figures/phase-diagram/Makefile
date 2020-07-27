@@ -86,7 +86,7 @@ progress/analyses : progress/CPM1D-tracks
 		$(MAKE) $(FILES) && touch $@
 
 data/analysis/phases.txt : progress/analyses
-	echo "n dBIC13 dBIC12 dBIC23 mact lact" > $@ &&\
+	echo "n dBIC13 dBIC12 dBIC23 broken dmuRel mact lact" > $@ &&\
 	cat $(FILES) >> $@
 	
 
