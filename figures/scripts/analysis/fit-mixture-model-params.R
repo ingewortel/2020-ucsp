@@ -50,7 +50,7 @@ estimateComponents <- function( datalist ){
   
 	  df <- data.frame( n = n, dBIC13 = BIC13, dBIC12 = BIC12, dBIC23 = BIC23, broken = broken2, dmuRel = dmuRel, mact = mact, lact = lact )
   } else {
-  	  df <- data.frame( n = NA, dBIC13 = NA, dBIC12 = NA, dBIC23 = NA, broken = broken2, dmuRel = dmuRel, mact = mact, lact = lact )
+  	  df <- data.frame( n = NA, dBIC13 = NA, dBIC12 = NA, dBIC23 = NA, broken = broken2, dmuRel = NA, mact = mact, lact = lact )
   }
   return(df)
   
