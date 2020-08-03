@@ -18,7 +18,7 @@ getDx <- function(tracks ){
   if( nsim > 0 ){
   
 	  # steps from tracks, then shuffle them (wo regard for simulation they come from)
-	  steps <- subtracks(tracks,4)
+	  steps <- subtracks(tracks,2)
 	  steps <- sample( steps, length( steps ) )
 	  #steps <- steps[1:5000]
   
