@@ -7,11 +7,11 @@ pathToHere=../../phase-diagram
 
 # Get other make variables from a general configuration file.
 include ../settings.env
-NSIM=5
+NSIM=30
 RUNTIME=25000
 N=30
 
-
+all : plots/phase-diagram.pdf plots/dx-insets.pdf
 
 # ============================= PHASE DIAGRAM ======================================
 # The 1D plot for panel B.
@@ -45,19 +45,9 @@ progress/CPM1D-tracks : data/mkfiles/CPM1D.make ../scripts/simulation/simple-tra
 	$(MAKE) -f $< &&\
 	touch $@
 	
-	
-data/allTracks.rds : ../scripts/analysis/collect-tracks.R progress/CPM1D-tracks \
-	settings/params1D.txt  | data
-	Rscript $< settings/params1D.txt CPM1D $(NSIM) $@
-	
-	
-data/phases.txt : ../scripts/analysis/fitMixtureModel.R data/allTracks.rds settings/params1D.txt
-	Rscript $^ $@ 
-	
-	
+# STEP 2: Analyze tracks. 
 # Analysis per parameter combination in settings/params1D.txt. Loop over numbers 
 # 1:nrow(paramfile)	do do each step for the appropriate parameters.
-
 
 # Make a folder
 data/analysis/p%data :
@@ -77,18 +67,29 @@ data/analysis/p%data/dx.rds : ../scripts/analysis/get-dx-params.R data/analysis/
 data/analysis/p%data/model.txt : ../scripts/analysis/fit-mixture-model-params.R data/analysis/p%data/dx.rds
 	Rscript $^ data/analysis/p$*data/broken.rds $@
 
-FILES=$$(cat data/filelist.txt)
-
+# Ensure that these steps are performed for all parameter combinations.
 data/filelist.txt : ../scripts/analysis/list-analysis-output.R settings/params1D.txt | data
 	Rscript $^ $@
+	
+FILES=$$(cat data/filelist.txt)
 
-progress/analyses : progress/CPM1D-tracks
+progress/analyses : progress/CPM1D-tracks data/filelist.txt
 		$(MAKE) $(FILES) && touch $@
 
+# Merge all into a single file:
 data/analysis/phases.txt : progress/analyses
 	echo "n dBIC13 dBIC12 dBIC23 broken dmuRel mp mact lact" > $@ &&\
 	cat $(FILES) >> $@
 	
+# STEP 3: plotting
+plots/phase-diagram.pdf : ../scripts/plotting/plot-phase-diagram.R data/analysis/phases.txt \
+	settings/highlights.txt | plots
+	Rscript $< data/analysis/phases.txt $@ $(N) $(NSIM) settings/highlights.txt
+	
+plots/dx-insets.pdf : ../scripts/plotting/plot-dx-insets.R settings/params1D.txt \
+	settings/highlights.txt progress/analyses | plots 
+	Rscript $< settings/params1D.txt settings/highlights.txt $@
+
 
 
 
