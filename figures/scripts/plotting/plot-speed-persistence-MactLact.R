@@ -7,6 +7,7 @@ argv <- commandArgs( trailingOnly = TRUE )
 datafile <- argv[1]
 outplot <- argv[2]
 pmeasure <- argv[3]
+plotTitle <- argv[4]
 
 
 # Read the data and compute averages over sims
@@ -55,6 +56,7 @@ ymax <- 10^4 #10^ceiling( log10( max(dmean$m_persistence,na.rm=TRUE ) ) )
 # Compute the spearman correlation coefficient
 spearman_r <- round( cor.test( dmean$m_speed, dmean$m_persistence, method="spearman" )$estimate, 3)
 
+dmean$title <- plotTitle
 
 # Plot the correlation
 p <- ggplot( dmean, aes( 	x = m_speed, 
@@ -67,11 +69,18 @@ p <- ggplot( dmean, aes( 	x = m_speed,
 	scale_y_log10( expand=c(0,0)) +
 	scale_x_continuous( limits=c(0,NA),expand=c(0,0) ) +
 	coord_cartesian( ylim = c(1,ymax)) +
-	mytheme + theme(
-		legend.position = "right",
-		plot.title = element_text(size = 9),
-		legend.title = element_text( size = 9 ),
-		strip.background =element_rect(fill=NA,color=NA)
-	)
+	facet_wrap( ~title ) +
+	mytheme 
+# 	+ theme(
+# 		legend.position = "right",
+# 		plot.title = element_text(size = 9),
+# 		legend.title = element_text( size = 9 ),
+# 		strip.background =element_rect(fill=NA,color=NA)
+# 	)
 
-ggsave(outplot, width=6, height=4, units="cm")
+pHeight = 5
+#if( plotTitle == "1D" ){
+#	pHeight = 5
+#}
+
+ggsave(outplot, width=6, height=pHeight, units="cm")

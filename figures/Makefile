@@ -45,8 +45,11 @@ figure1/figure1.pdf : | progress
 
 figureS1/figureS1.pdf : figure1/figure1.pdf | progress
 	cd figureS1 && $(MAKE) && touch ../progress/figureS1
+	
+progress/phase-diag : | progress
+	cd phase-diagram && $(MAKE) && touch ../progress/phase-diag
 
-figure2/figure2.pdf : figureS1/figureS1.pdf | progress
+figure2/figure2.pdf : figureS1/figureS1.pdf progress/phase-diag | progress
 	cd figure2 && $(MAKE) && touch ../progress/figure2
 	
 figure5/figure5.pdf : figure2/figure2.pdf | progress

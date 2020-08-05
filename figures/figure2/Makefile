@@ -86,7 +86,7 @@ data/CPM1D-speedpersistence-all.txt : data/mkfiles/analyze-CPM1D.make \
 # STEP 3: Make the speed-persistence plot of all parameter combinations.
 plots/F2panelB-1D.pdf : ../scripts/plotting/plot-speed-persistence-MactLact.R \
 	data/CPM1D-speedpersistence-all.txt ../scripts/plotting/mytheme.R | plots
-	Rscript $< data/CPM1D-speedpersistence-all.txt $@ phalf
+	Rscript $< data/CPM1D-speedpersistence-all.txt $@ phalf 1D
 
 
 
@@ -146,7 +146,7 @@ data/CPM2D-speedpersistence-all.txt : data/mkfiles/analyze-CPM2D.make \
 # STEP 3: Make the speed-persistence plot of all parameter combinations.
 plots/F2panelB-2D.pdf : ../scripts/plotting/plot-speed-persistence-MactLact.R \
 	data/CPM2D-speedpersistence-all.txt ../scripts/plotting/mytheme.R | plots
-	Rscript $< data/CPM2D-speedpersistence-all.txt $@ phalf
+	Rscript $< data/CPM2D-speedpersistence-all.txt $@ phalf 2D
 
 
 
@@ -207,7 +207,7 @@ data/CPM3D-speedpersistence-all.txt : data/mkfiles/analyze-CPM3D.make \
 # STEP 3: Make the speed-persistence plot of all parameter combinations.
 plots/F2panelB-3D.pdf : ../scripts/plotting/plot-speed-persistence-MactLact.R \
 	data/CPM3D-speedpersistence-all.txt ../scripts/plotting/mytheme.R | plots
-	Rscript $< data/CPM3D-speedpersistence-all.txt $@ phalf
+	Rscript $< data/CPM3D-speedpersistence-all.txt $@ phalf 3D
 
 # ================================ PANEL C ======================================
 # speed-persistence analysis for the microchannels, stratified by max_act value.

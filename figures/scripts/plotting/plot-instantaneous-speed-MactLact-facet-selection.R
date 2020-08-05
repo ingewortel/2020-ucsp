@@ -69,17 +69,18 @@ p <- ggplot( data2, aes( x = v, y = ..density.., color = lact2, group = lact ) )
   scale_x_continuous( expand = c(0,0) ) +
   # sizes in geom_text are in mm = 14/5 pt, so multiply textsize in pt with 5/14 to get
   # proper size in geom_text.
-  geom_text( data = annotationdata, aes( y = pos, label = lact ), size=0.9*mytheme$text$size*(5/14), show.legend = FALSE ) +
+  geom_text( data = annotationdata, aes( y = pos, label = lact ), size=0.87*mytheme$text$size*(5/14), show.legend = FALSE ) +
   geom_text(data = annotationdata2, aes( y = pos, x = v, group = mact), color = "black", size=mytheme$text$size*(5/14), 
             label = "lambda[act]", parse = TRUE ) +
   mytheme + theme(
     legend.position = "right",
-    axis.line.x = element_blank()
+    axis.line.x = element_blank(),
+    panel.spacing.y = unit(-1, "mm")
   )
 
 npanels <- length( unique( data$mact ) )
 npanelrows <- ceiling( npanels/nc )
-pheight <- 3.5*npanelrows+1
+pheight <- 3.5*npanelrows+0.5
 pw <- 4.5*nc+1
 if( pw > 18 ){pw <- 18}
 
