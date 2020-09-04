@@ -1,7 +1,7 @@
 .SECONDARY:
 .DELETE_ON_ERROR:
 
-all : figures.pdf supp-figures.pdf
+all : figures.pdf supp-figures.pdf energy-barrier/latex/energy.pdf
 
 figs=1 2 3 4 5 S1 S2 S3 S4 S5
 mainfigs=1 2 3 4 5
@@ -76,7 +76,8 @@ figureS4/figureS4.pdf : figureS2/figureS2.pdf figure5/figure5.pdf
 figureS5/figureS5.pdf : figureS4/figureS4.pdf figure5/figure5.pdf
 	cd figureS5 && $(MAKE) && touch ../progress/figureS5
 
-
+energy-barrier/latex/energy.pdf :
+	cd energy-barrier && $(MAKE)
 
 
 
