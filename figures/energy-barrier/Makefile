@@ -14,7 +14,7 @@ imglambda=80
 data/energies.txt : $(foreach l, $(lambdas), data/energy-$(l).txt )
 	cat $^ > $@
 
-data/energy-%.txt : barrier.js | data
+data/energy-%.txt : barrier.js | data output
 	node $< -l $* -i $(imglambda) | awk -F "\t" -v lact=$* '{print lact, $$0}' > $@
 
 latex/energy.pdf : latex/energy.tex figs
@@ -36,4 +36,7 @@ plots :
 
 
 data :
+	mkdir -p $@
+	
+output :
 	mkdir -p $@
