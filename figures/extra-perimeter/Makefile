@@ -61,7 +61,7 @@ progress/CPM1D-tracks : data/mkfiles/CPM1D.make ../scripts/simulation/simple-tra
 # This also generates folders data/analysis-CPM1D/tmp (for intermediate analysis files),
 # and data/analysis-CPM1D/acorplots (which is currently not used, but the analysis
 # script has an option to save autocovariance plots when computing persistence.)
-data/mkfiles/analyze-CPM1D.make : ../scripts/analysis/analysis-lact-mact-makeout.sh \
+data/mkfiles/analyze-CPM1D.make : ../scripts/analysis/analysis-lact-lp-makeout.sh \
 	progress/CPM1D-tracks settings/params1D.txt | data/mkfiles
 	rm -f data/CPM1D-speedpersistence-all.txt && rm -rf data/analysis-CPM1D/tmp && \
 		rm -rf data/analysis-CPM1D/acorplots && \
@@ -76,7 +76,7 @@ data/mkfiles/analyze-CPM1D.make : ../scripts/analysis/analysis-lact-mact-makeout
 # Once a separate analysis is performed for each parameter combi under 
 # data/analysis-CPM1D/tmp, all files are concatenated and a header is added. 
 data/CPM1D-speedpersistence-all.txt : data/mkfiles/analyze-CPM1D.make \
-	../scripts/analysis/analyze-speed-persistence-combined.R \
+	../scripts/analysis/analyze-speed-persistence-perim.R \
 	../scripts/analysis/trackAnalysisFunctions.R
 	@$(MAKE) -f $< message && $(MAKE) -f $<
 
