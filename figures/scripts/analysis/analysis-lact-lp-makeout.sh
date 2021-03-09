@@ -50,7 +50,7 @@ fileList=""
 for p in $(seq 1 $np) ; do
 
 	# Get current values of the parameters
-	MACT=$( cat $paramFile | awk -v line=$p 'NR==line{print $1}')
+	LP=$( cat $paramFile | awk -v line=$p 'NR==line{print $1}')
 	LACT=$( cat $paramFile | awk -v line=$p 'NR==line{print $2}')
 		
 		# Identifier based on current parameter values
