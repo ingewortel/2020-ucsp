@@ -70,7 +70,7 @@ done
 
 # This recipe concatenates all the outputs together, with a header of column names first.
 echo "data/$expName-speedpersistence-all.txt : $fileList"
-echo -e "\t@"printf "'"'%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\n'"'" " lact lp group speed pexp phalf pintmean pintmedian > \$@ && \\"
+echo -e "\t@"printf "'"'%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\n'"'" " lact lp group speed pexp phalf pintmean pintmedian pconn > \$@ && \\"
 echo -e "\t"cat $fileList ">> \$@"
 
 

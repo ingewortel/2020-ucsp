@@ -61,6 +61,25 @@ C.timeStep = function (){
 				l();
 			}
 		}
+
+	C.deltaH = function( sourcei, targeti, src_type, tgt_type){
+		let r = 0.0
+	
+		for( let tn of Object.keys( this.soft_constraints_indices ) ){
+			ti = this.soft_constraints_indices[tn]
+			for( let i of ti ){
+				t = this.soft_constraints[i]
+				dHt = t.deltaH( sourcei, targeti, src_type, tgt_type )
+				console.log( tn + "\t" + dHt )
+				r += dHt
+			}
+		}
+	
+		//for( let t of this.soft_constraints ){
+		//	r += t.deltaH( sourcei, targeti, src_type, tgt_type )
+		//}
+		return r
+	}
 }
 </script>
 <script src="https://d3js.org/d3.v5.min.js"></script>

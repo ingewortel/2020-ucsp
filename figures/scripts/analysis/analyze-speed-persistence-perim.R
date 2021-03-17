@@ -41,6 +41,11 @@ getMeanConn <- function( sim ){
 	dConn <- read.table( dName )
 	return( mean( dConn$V6 ) )
 }
+getPercConn <- function ( sim ){
+	dName <- paste0( trackfilename, sim, ".txt" )
+	dConn <- read.table( dName )
+	return( sum( dConn$V6 > 0.95 )/nrow( dConn ) )
+}
 
 
 
@@ -61,7 +66,7 @@ for( g in 1:groups ){
 			file <- paste0( trackfilename, sim, ".txt" )
 			t <- readTracks( file, dim, torusFieldsize )
 			tracklist <- c( tracklist, t )
-			mConn <- c( mConn, getMeanConn( sim ) )
+			pConn <- c( mConn, getPercConn( sim ) )
 		}
 
 	}
@@ -120,7 +125,7 @@ for( g in 1:groups ){
 		phalf = p$halflife,
 		pintmean = p$meanint, 
 		pintmedian = p$medianint,
-		mConn = mean( mConn )
+		pConn = mean( pConn )
 	)
 	dtmp <- cbind( dparms, dvalues )
 	d <- rbind( d, dtmp )

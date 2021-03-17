@@ -1,4 +1,4 @@
-lact	lp	group	speed	pexp	phalf	pintmean	pintmedian
+lact	lp	group	speed	pexp	phalf	pintmean	pintmedian mconn
  100 0 1 0.2049917       NA 8.535429 452.6316 250 0.8619383
  100 0 2 0.2022251 2.647648 8.568796 390.4464 250 0.8538503
  100 0 3 0.1985206 3.379633 9.146809 417.0433 250 0.8615692
