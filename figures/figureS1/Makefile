@@ -8,6 +8,9 @@ all : figureS1.pdf
 # path to here from ../scripts/simulation/ where scripts are
 pathToHere=../../figureS1
 
+# Get other make variables from a general configuration file.
+include ../settings.env
+
 # This figure contains no simulation data, and only requires the images in folders
 # cartoons/ and example-img/.
 
