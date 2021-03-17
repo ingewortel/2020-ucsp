@@ -26,11 +26,11 @@ dMean <- d %>%
 	summarise( speed = mean(speed), pt = mean(phalf), pconn = mean(pconn) )
 
 
-plotBroken <- ggplot( d, aes( x = lact, y = pconn, group = lp, color = log(lp+.1), linetype = (lp == 2 ) ) ) +
-	geom_line( data = dMean, ) +
+plotBroken <- ggplot( dMean, aes( x = lact, y = 100*(1-pconn), group = lp, color = log(lp+.1), linetype = (lp == 2 ) ) ) +
+	geom_line( ) +
 	geom_point( show.legend = FALSE, size = 0.5 ) +
 	labs( x = expression(lambda["act"]), 
-			y = "mean connectedness", 
+			y = "cell breaking (% time with C < 0.95)", 
 			color = expression( lambda["P"]),
 			linetype = expression( lambda["P"]) ) +
 	scale_color_gradient2( midpoint = log(2.1), breaks = log(lpVec+.1), 
@@ -41,7 +41,7 @@ plotBroken <- ggplot( d, aes( x = lact, y = pconn, group = lp, color = log(lp+.1
 		labels = lpVec ) +
 	scale_linetype(guide = FALSE) +
 	scale_x_continuous( limits = c(0, 1500), expand = c(0,0) ) +
-	scale_y_continuous( limits = c(0,1.05), expand = c(0,0), breaks = seq(0,1,by=0.25) ) +
+	scale_y_continuous( limits = c(0,105), expand = c(0,0), breaks = seq(0,1,by=0.25) ) +
 	#scale_color_manual( values = colValues ) + 
 	mytheme + theme(
 		legend.position="right",
