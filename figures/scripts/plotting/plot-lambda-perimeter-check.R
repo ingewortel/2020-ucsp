@@ -28,6 +28,7 @@ dMean <- d %>%
 
 plotBroken <- ggplot( dMean, aes( x = lact, y = 100*(1-pconn), group = lp, color = log(lp+.1), linetype = (lp == 2 ) ) ) +
 	geom_line( ) +
+	geom_hline( yintercept = 0 ) +
 	geom_point( show.legend = FALSE, size = 0.5 ) +
 	labs( x = expression(lambda["act"]), 
 			y = "cell breaking (% time with C < 0.95)", 
@@ -41,11 +42,12 @@ plotBroken <- ggplot( dMean, aes( x = lact, y = 100*(1-pconn), group = lp, color
 		labels = lpVec ) +
 	scale_linetype(guide = FALSE) +
 	scale_x_continuous( limits = c(0, 1500), expand = c(0,0) ) +
-	scale_y_continuous( limits = c(0,105), expand = c(0,0), breaks = seq(0,1,by=0.25) ) +
+	scale_y_continuous( limits = c(-5,100), expand = c(0,0), breaks = seq(0,100,by=25) ) +
 	#scale_color_manual( values = colValues ) + 
 	mytheme + theme(
 		legend.position="right",
-		legend.title = element_text()
+		legend.title = element_text(),
+		axis.line.x = element_blank()
 	)
 	
 ggsave( outPlotBreaking, width = 8, height = 6, units = "cm" )
