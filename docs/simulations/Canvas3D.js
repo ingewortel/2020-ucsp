@@ -63,7 +63,7 @@ class Canvas3D {
 		this.gridComponents = []
 		
 		// renderer settings
-		this.w = 700 // || this.container.offsetWidth
+		this.w = options.w || 400 // || this.container.offsetWidth
 		this.h = this.w
 		
 		this.canvasColor = options["CANVASCOLOR"] || this.getCol( "FFFFFF" )

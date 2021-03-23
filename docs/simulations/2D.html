@@ -149,13 +149,15 @@ Model of a cell freely migrating on a 2D surface.
 	<td>&lambda;<sub>act</sub></td><td>
 		<input type="text" value="500" id="lact" oninput="sim.C.getConstraint('ActivityConstraint').conf.LAMBDA_ACT[1]=parseInt(this.value)">
 	</td>
+</tr>
+<tr>
 	<td>max<sub>act</sub></td><td>
 		<input type="text" value="40" id="mact" oninput="sim.C.getConstraint('ActivityConstraint').conf.MAX_ACT[1]=parseInt(this.value)">
 	</td>
 </tr>
 <tr>
-	<td colspan="2"><button class = "button" onclick="sim.toggleRunning()">start/stop</button></td>
-	<td colspan="2"><button class = "button" onclick="killCells();sim.gm.seedCell(1)">reseed Cell</button>	</td>
+	<td ><button class = "button" onclick="sim.toggleRunning()">start/stop</button></td>
+	<td ><button class = "button" onclick="killCells();sim.gm.seedCell(1)">reseed Cell</button>	</td>
 </tr>
 
 </table>

@@ -19,7 +19,7 @@ let frameCaptureSocket = new WebSocket("ws://localhost:1337")
 
 
 // Some parameters and global variables
-let mesh_step = 150, ncells = 1, stopit = 0, w = 200
+let mesh_step = 150, ncells = 1, stopit = 0, w = 100
 let C,meter,Gi, Cim, runtime =50000, zoom = 2, TAKE_SHOT=0
 
 let config = {
@@ -166,24 +166,25 @@ Model of a cell freely migrating in 3D. Scroll to zoom, left click and drag to r
 right click and drag to move. Click "stop" and "step simulation" to see how the grid
 changes for a single MCS. <br>
 </p>
-</div>
 
-<div style="width:600px; margin:auto">
-<p></p>
 
-<div>
+
 	<!-- Input fields for the parameters-->
 	<div frame="box">
 		<table frame="box">
 			<tr>
-				<td>&lambda;<sub>act</sub></td><td>
+				<td >&lambda;<sub>act</sub></td>
+				<td >
 					<input type="text" value="500" id="lact" oninput="C.getConstraint('ActivityConstraint').conf.LAMBDA_ACT[1]=parseFloat(this.value)">
 				</td>
+			</tr>
+			<tr>
 				<td>max<sub>act</sub></td><td>
 					<input type="text" value="40" id="mact" oninput="C.getConstraint('ActivityConstraint').conf.MAX_ACT[1]=parseFloat(this.value)">
 				</td>
 			</tr>
 		</table>
+		<br>
 	</div>
 
 	<!-- Buttons to control the simulation -->
@@ -195,11 +196,14 @@ changes for a single MCS. <br>
 	  <button onclick="toggleGrid()">grid on/off</button>
 
 	</div>
-
-	<!-- This is the div in which the simulation will be placed.-->
+	
 	<div id="stage"></div>
-
+	
 </div>
+<br>
+	<!-- This is the div in which the simulation will be placed.-->
+	
+
 
 <h2>About the Model</h2>
 

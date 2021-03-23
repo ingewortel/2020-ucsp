@@ -227,7 +227,7 @@ parameters while the simulation is running.<br>
 </p>
 </div>
 
-
+<br>
 <div frame="box">
 <div>
 <table frame="box">
@@ -235,23 +235,25 @@ parameters while the simulation is running.<br>
 	<td>&lambda;<sub>act</sub></td><td>
 		<input type="text" value="500" id="lact" oninput="sim.C.getConstraint('ActivityConstraint').conf.LAMBDA_ACT[1]=parseInt(this.value)">
 	</td>
+</tr>
+<tr>
 	<td>max<sub>act</sub></td><td>
 		<input type="text" value="40" id="mact" oninput="sim.C.getConstraint('ActivityConstraint').conf.MAX_ACT[1]=parseInt(this.value)">
 	</td>
 </tr>
 <tr>
-	<td colspan="2"><label for="ttype">Choose tissue type:</label></td>
+	<td colspan="1"><label for="ttype">Choose tissue type:</label></td>
 	<td colspan="1">
 		<select id="ttype" name="ttype" onchange="tissue=this.value">
 			<option value="stiff">Stiff</option>
 			<option value="deformable">Deformable</option>
 		  </select>
+		   <button onclick="setTissueType()">set tissue</button>
 	</td>
-	<td>  <button onclick="setTissueType()">set tissue</button> </td>
 </tr>
 <tr>
-	<td colspan="2"><button class = "button" onclick="sim.toggleRunning()">start/stop</button></td>
-	<td colspan="2"><button class = "button" onclick="killCells();sim.initializeGrid()">reseed Cell</button>	</td>
+	<td ><button class = "button" onclick="sim.toggleRunning()">start/stop</button></td>
+	<td ><button class = "button" onclick="killCells();sim.initializeGrid()">reseed Cell</button>	</td>
 </tr>
 
 
