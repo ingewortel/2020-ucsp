@@ -1,39 +1,8 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>2D ActModel</title>
-<style type="text/css">
-body{
-		font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue",
-		 Helvetica, Arial, "Lucida Grande", sans-serif;
-	 padding : 15px;
-  min-width:100px;
-  max-width:700px;
-  text-align:center;
-	margin:0 auto;
-
-}
-td {
-	 padding: 10px;
-	 vertical-align: top;
-}
-
-table {
-	margin-left:auto;margin-right:auto;
-}
-
-.button {
-        background-color: #1c87c9;
-        border: none;
-        color: white;
-        padding: 10px 15px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 14px;
-        margin: 4px 2px;
-        cursor: pointer;
-</style>
-
+<link rel="stylesheet" href="./style.css">
 
 <script src="./artistoo.js"></script>
 <script src="./fpsmeter.min.js"></script>
@@ -119,6 +88,11 @@ let sim, meter
 
 function initialize(){
 	sim = new CPM.Simulation( config, {} )
+	sim.Cim = new CPM.Canvas( sim.C, {
+		zoom:sim.conf.zoom, 
+		parentElement : document.getElementById("simContainer")
+	} )
+	sim.helpClasses[ "canvas" ] = true
 
 	initializeControls()
 	meter = new FPSMeter({left:"auto", right:"5px"})
@@ -160,12 +134,14 @@ function killCells(){
 </head>
 <body onload="initialize();step()">
 <a href="../index.html" class="button">Home</a>
+<div id="simContainer" class="simcontainer">
 <h1>2D migrating cell</h1>
 <p>
 Model of a cell freely migrating on a 2D surface.
 </p>
-
-
+<br>
+</div>
+<br>
 <div frame="box">
 <div>
 <table frame="box">
@@ -185,7 +161,55 @@ Model of a cell freely migrating on a 2D surface.
 </table>
 </div>
 </div>
-<br><br>
+<br>
+<h2>About the Model</h2>
+
+<p>For details about the model, we refer to the paper. Alternatively, you can check out 
+the following online, interactive explorables to learn more about 
+<a href="https://ingewortel.github.io/artistoo-supplements/interactive-html/Tutorial-CPM.html">Cellular Potts Models</a> 
+in general or the 
+<a href="https://ingewortel.github.io/artistoo-supplements/interactive-html/InteractiveS1-ActModel.html">Act-CPM</a>, 
+specifically (<a href = "#artistoo">Wortel and Textor, 2020</a>).</p>
+
+<h2>Suggestions</h2>
+
+<p>Try the following:</p>
+<ul> 
+	<li>Set &lambda;<sub>act</sub> or max<sub>act</sub> to 0. You should see that the cell
+	cannot break symmetry and form stable protrusions to migrate.</li>
+	<li>Set &lambda;<sub>act</sub> back to 300 and max<sub>act</sub> to a very high value,
+	e.g. 10000. Click "reseed cell". You should see that the cell again has a hard time 
+	breaking symmetry, this time because the activity is <i>high</i> everywhere (and thus,
+	there is no polarity gradient).</li>
+	<li>Refresh the page to go back to the default settings, and watch the cell for a while.
+	Watch what happens when the cell turns; does the protrusion decay completely, shift 
+	along the cell perimeter ("angular diffusion"), split into parts, or "lose" the competition with another
+	protrusion formed elsewhere?</li>
+	<li> Strengthen the protrusive force &Delta;H<sub>act</sub> by 
+	increasing &lambda;<sub>act</sub> (e.g. 1000). You should see that the cell moves faster, and 
+	also changes shape.</li>
+	<li> Decrease &lambda;<sub>act</sub> to 100. You should see that the protrusion 
+	becomes smaller, the cell moves more slowly and stops/turns often. What happens now 
+	when the cell turns (protrusion decay/angular diffusion/protrusion splitting/competing
+	protrusions)?</li>
+	<li>At &lambda;<sub>act</sub> = 300, now increase max<sub>act</sub> to 50.
+	You should see that the activity gradient reaches farther into the cell, and that this
+	coincides with a broadening of the overall cell shape.</li>
+</ul>
+
+
+<h2>References</h2>
+
+<div id = "artistoo" class="ref">
+	<span class="author">Wortel and Textor.</span>
+	<cite><a href="https://doi.org/10.1101/2020.05.01.072975">
+		Artistoo: build, share, and explore simulations of cells and tissues in the web browser</a></cite>.
+	<span class="journal">bioRxiv,</span>
+	<span class="year">2020</span>. 
+</div>
+
+
+
 
 </body>
 </html>

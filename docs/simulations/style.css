@@ -1,0 +1,48 @@
+body{
+		font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue",
+		 Helvetica, Arial, "Lucida Grande", sans-serif;
+	 padding : 15px;
+  min-width:100px;
+  max-width:700px;
+	margin:0 auto;
+
+}
+td {
+	 padding: 10px;
+	 vertical-align: top;
+}
+
+table {
+	margin-left:auto;margin-right:auto;
+}
+
+.button {
+        background-color: #1c87c9;
+        border: none;
+        color: white;
+        padding: 10px 15px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        margin: 4px 2px;
+        cursor: pointer;
+      }
+      
+      
+.journal{
+	font-style:italic;
+}
+
+cite{
+	font-style: normal;
+}
+
+.ref{
+	padding-top:3px;
+	padding-bottom:3px;
+}
+
+.simcontainer {
+	text-align:center;
+}

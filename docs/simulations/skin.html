@@ -1,38 +1,9 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Skin</title>
-<style type="text/css">
-body{
-		font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue",
-		 Helvetica, Arial, "Lucida Grande", sans-serif;
-	 padding : 15px;
-  min-width:100px;
-  max-width:700px;
-  text-align:center;
-	margin:0 auto;
+<link rel="stylesheet" href="./style.css">
 
-}
-td {
-	 padding: 10px;
-	 vertical-align: top;
-}
-
-table {
-	margin-left:auto;margin-right:auto;
-}
-
-.button {
-        background-color: #1c87c9;
-        border: none;
-        color: white;
-        padding: 10px 15px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 14px;
-        margin: 4px 2px;
-        cursor: pointer;
-</style>
 
 
 <script src="./artistoo.js"></script>
@@ -122,8 +93,14 @@ function initialize(){
 	sim = new CPM.Simulation( config, {
 		initializeGrid : initializeGrid
 	} )
+	sim.Cim = new CPM.Canvas( sim.C, {
+		zoom:sim.conf.zoom, 
+		parentElement : document.getElementById("simContainer")
+	} )
+	sim.helpClasses[ "canvas" ] = true
 	
 	initializeControls()
+	setTissueType()
 
 
 	meter = new FPSMeter({left:"auto", right:"5px"})
@@ -241,13 +218,14 @@ function setTissueType(){
 
 <a href="../index.html" class="button">Home</a>
 
+<div id="simContainer" class="simcontainer">
 <h1>Act T cells in the epidermis</h1>
 <p>
 A cell moves inside a densely packed tissue. To change the tissue stiffness, select an
 option from the dropdown menu and click "set tissue". This will change the appropriate
 parameters while the simulation is running.<br>
 </p>
-
+</div>
 
 
 <div frame="box">
@@ -281,15 +259,54 @@ parameters while the simulation is running.<br>
 </div>
 <div>
 	  
-	  
-	 
-	  <br><br>
 </div>
 
 
 
 </div>
 <br>
+
+
+<h2>About the Model</h2>
+
+<p>For details about the model, we refer to the paper. Alternatively, you can check out 
+the following online, interactive explorables to learn more about 
+<a href="https://ingewortel.github.io/artistoo-supplements/interactive-html/Tutorial-CPM.html">Cellular Potts Models</a> 
+in general or the 
+<a href="https://ingewortel.github.io/artistoo-supplements/interactive-html/InteractiveS1-ActModel.html">Act-CPM</a>, 
+specifically (<a href = "#artistoo">Wortel and Textor, 2020</a>).</p>
+
+<h2>Suggestions</h2>
+
+<p>Try the following:</p>
+<ul> 
+	<li>Watch the cell for a while at the default settings. You should see protrusions 
+	splitting when the cell needs to choose its direction.</li>
+	<li>Increase max<sub>act</sub> to 60 and watch again. The protrusion will become
+	somewhat bigger, but it will still split. Now set the tissue to "deformable" and 
+	click "set tissue". The cell now becomes broader more often, and protrusions are
+	slightly less prone to splitting.</li>
+	<li>Reset max<sub>act</sub>=40 and lower &lambda;<sub>act</sub> to 500. Now, the
+	protrusion typically doesn't split, but instead turns around the cell perimeter
+	until it finds a new "path of least resistance" in which the cell can go.</li>
+</ul>
+
+
+<h2>References</h2>
+
+<div id = "artistoo" class="ref">
+	<span class="author">Wortel and Textor.</span>
+	<cite><a href="https://doi.org/10.1101/2020.05.01.072975">
+		Artistoo: build, share, and explore simulations of cells and tissues in the web browser</a></cite>.
+	<span class="journal">bioRxiv,</span>
+	<span class="year">2020</span>. 
+</div>
+
+
+
+
+
+
 
 
 </body>
