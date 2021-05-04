@@ -35,7 +35,7 @@ which again will install make along with other essentials (such as C++ compilers
 
 #### 2 Install node and npm
 
-See [https://nodejs.org/en/download/package-manager/](this page) for details.
+See [https://nodejs.org/en/download/package-manager](this page) for details.
 
 
 #### 3 Install node packages
