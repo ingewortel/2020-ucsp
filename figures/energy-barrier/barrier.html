@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+canvas { border: 1px solid black }
+div.plot{
+	display:inline-block;
+	width: 419px;
+	height: 200px
+}
+</style>
+<script src="../scripts/artistoo/build/artistoo.js"></script>
+<!-- patch artistoo to record the current value of delta_H in the global array "rr". -->
+<script>
+function patch( C ){
+C.timeStep = function (){
+			let delta_t = 0.0;
+			// this loop tracks the number of copy attempts until one MCS is completed.
+			while( delta_t < 1.0 ){
+				// This is the expected time (in MCS) you would expect it to take to
+				// randomly draw another border pixel.
+				delta_t += 1./(this.borderpixels.length);
+
+				// sample a random pixel that borders at least 1 cell of another type,
+				// and pick a random neighbour of tha pixel
+				const tgt_i = this.borderpixels.sample();
+				const Ni = this.grid.neighi( tgt_i );
+				const src_i = Ni[this.ran(0,Ni.length-1)];
+			
+				const src_type = this.grid.pixti( src_i );
+				const tgt_type = this.grid.pixti( tgt_i );
+
+				// only compute the Hamiltonian if source and target belong to a different cell,
+				// and do not allow a copy attempt into the stroma. Only continue if the copy attempt
+				// would result in a viable cell.
+				if( tgt_type != src_type ){
+					let ok = true;
+					for( let h of this.hard_constraints ){
+						if( !h.fulfilled( src_i, tgt_i, src_type, tgt_type ) ){
+							ok = false; break
+						}
+					}
+					if( ok ){
+						const hamiltonian = this.deltaH( src_i, tgt_i, src_type, tgt_type );
+						// probabilistic success of copy attempt 
+						if( this.docopy( hamiltonian ) ){
+							rr.push( hamiltonian )
+							this.setpixi( tgt_i, src_type );
+						} else {
+							rr.push( -hamiltonian )
+						}
+					}
+				} 
+			}
+			this.time++; // update time with one MCS.
+			/** Cached values of these stats. Object with stat name as key and its cached
+			value as value. The cache must be cleared when the grid changes!
+			@type {object} */
+			this.stat_values = {}; // invalidate stat value cache
+			for( let l of this.post_mcs_listeners ){
+				l();
+			}
+		}
+
+	C.deltaH = function( sourcei, targeti, src_type, tgt_type){
+		let r = 0.0
+	
+		for( let tn of Object.keys( this.soft_constraints_indices ) ){
+			ti = this.soft_constraints_indices[tn]
+			for( let i of ti ){
+				t = this.soft_constraints[i]
+				dHt = t.deltaH( sourcei, targeti, src_type, tgt_type )
+				console.log( tn + "\t" + dHt )
+				r += dHt
+			}
+		}
+	
+		//for( let t of this.soft_constraints ){
+		//	r += t.deltaH( sourcei, targeti, src_type, tgt_type )
+		//}
+		return r
+	}
+}
+</script>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="d3-charts.js"></script>
+
+
+</head>
+<body>
+
+<div>
+  <input type="range" id="volume" name="volume"
+         min="0" max="10000" onchange="C.conf.LAMBDA_ACT[1]=this.value">
+  <label for="volume">&lambda;<sub>Act</sub></label>
+</div>
+
+<script>
+
+var rr = [], rr_ma = [], decay = 0.01
+
+let C = new CPM.CPM( [200,1], {
+		// Basic CPM parameters
+		T : 20,								// CPM temperature
+
+		// Adhesion parameters:
+		J: [[0,20], [20,100]] ,
+		
+		// VolumeConstraint parameters
+		LAMBDA_V : [0,50],				// VolumeConstraint importance per cellkind
+		V : [0,25],					// Target volume of each cellkind
+		
+		LAMBDA_ACT : [0,5000],
+		MAX_ACT : [0,25],
+		ACT_MEAN : "geometric"
+	} )
+
+patch(C)
+
+let gm = new CPM.GridManipulator( C )
+gm.seedCell(1)
+
+for( let i = 0 ; i < 100 ; i ++ ){
+	C.timeStep()
+}
+
+
+let Cim = new CPM.Canvas( C, {zoom:4} )
+
+function step(){
+	C.timeStep()
+	Cim.clear("FFFFFF")
+	Cim.drawCells(1, "000000")
+	Cim.drawActivityValues(1)
+	requestAnimationFrame( step )
+
+	if( rr_ma.length == 0 ){
+		rr_ma.push(rr[0])
+	}
+
+	while( rr_ma.length < rr.length ){
+		for( let i = rr_ma.length ; i < rr.length ; i ++ ){
+			rr_ma[i] = (1-decay) * rr_ma[i-1] + decay*rr[i]
+		}
+	}
+
+	if( rr.length > 1500 ){
+		rr = rr.slice( 1000 )
+		rr_ma = rr_ma.slice( 1000 )
+	}
+
+	plot.update( rr )
+	plot2.update( rr_ma )
+
+}
+
+var plot = new Linechart({title:"delta H"}) // ylim:[-10,10]})
+var plot2 = new Linechart({title:"decaying average delta H", ylim:[-10000,100]})
+
+step()
+
+</script>
+
+</body>
+</html>
